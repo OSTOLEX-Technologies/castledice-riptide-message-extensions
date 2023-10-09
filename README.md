@@ -1,1 +1,1 @@
-# castledice-riptide-dto-adapters
+# castledice-riptide-message-extensions
