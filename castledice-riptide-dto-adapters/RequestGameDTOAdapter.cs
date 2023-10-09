@@ -18,7 +18,7 @@ public class RequestGameDTOAdapter : IMessageSerializable
 
     public void Deserialize(Message message)
     {
-        string verificationKey = message.GetString();
+        var verificationKey = message.GetString();
         DTO = new RequestGameDTO(verificationKey);
     }
 }
