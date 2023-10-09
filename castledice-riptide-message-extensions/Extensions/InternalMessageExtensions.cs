@@ -6,10 +6,10 @@ using castledice_game_logic.GameObjects;
 using castledice_game_logic.Math;
 using Riptide;
 
-[assembly: InternalsVisibleTo("castledice-riptide-dto-adapters-tests")]
+[assembly: InternalsVisibleTo("castledice-riptide-message-extensions-tests")]
 namespace castledice_riptide_dto_adapters.Extensions;
 
-internal static class MessageExtensions
+internal static class InternalMessageExtensions
 {
     internal static void AddGameStartData(this Message message, GameStartData data)
     {

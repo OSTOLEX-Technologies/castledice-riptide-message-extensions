@@ -7,16 +7,16 @@ namespace castledice_riptide_dto_adapters;
 /// <summary>
 /// This class adds content data to a message.
 /// </summary>
-public class ContentDataAdder : IContentDataVisitor<int>
+internal class ContentDataAdder : IContentDataVisitor<int>
 {
     private readonly Message _message;
 
-    public ContentDataAdder(Message message)
+    internal ContentDataAdder(Message message)
     {
         _message = message;
     }
 
-    public void AddContentData(ContentData data)
+    internal void AddContentData(ContentData data)
     {
         _message.AddVector2Int(data.Position);
         _message.AddInt((int)data.Type);
