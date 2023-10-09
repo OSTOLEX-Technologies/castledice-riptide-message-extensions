@@ -30,4 +30,16 @@ public class MessageExtensionsTests
         
         Assert.Equal(DTOToSend, receivedDTO);
     }
+
+    [Fact]
+    public void AddMatchFoundDTO_ShouldAddMatchFoundDTOToMessage()
+    {
+        var DTOToSend = new MatchFoundDTO(new List<int>(){3, 5});
+        var message = GetEmptyMessage();
+        
+        message.AddMatchFoundDTO(DTOToSend);
+        var receivedDTO = message.GetMatchFoundDTO();
+        
+        Assert.Equal(DTOToSend, receivedDTO);
+    }
 }

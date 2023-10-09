@@ -27,4 +27,15 @@ public static class MessageExtensions
         var verificationKey = message.GetString();
         return new RequestGameDTO(verificationKey);
     }
+
+    public static void AddMatchFoundDTO(this Message message, MatchFoundDTO dto)
+    {
+        message.AddIntList(dto.PlayerIds);
+    }
+    
+    public static MatchFoundDTO  GetMatchFoundDTO(this Message message)
+    {
+        var playerIds = message.GetIntList();
+        return new MatchFoundDTO(playerIds);
+    }
 }
