@@ -6,7 +6,7 @@ using castledice_riptide_dto_adapters.Extensions;
 using static castledice_riptide_dto_adapters_tests.ObjectCreationUtility;
 namespace castledice_riptide_dto_adapters_tests;
 
-public class MessageExtensionsTests
+public class InternalMessageExtensionsTests
 {
     [Fact]
     public void AddVector2Int_ShouldAddVector2IntToMessage()

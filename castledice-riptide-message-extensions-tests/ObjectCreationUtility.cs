@@ -1,4 +1,6 @@
-﻿using castledice_game_data_logic;
+﻿using casltedice_events_logic.ClientToServer;
+using casltedice_events_logic.ServerToClient;
+using castledice_game_data_logic;
 using castledice_game_data_logic.Content;
 using castledice_game_logic;
 using castledice_game_logic.GameObjects;
@@ -16,6 +18,16 @@ public static class ObjectCreationUtility
         message.GetUShort();
         message.GetUShort();
         return message;
+    }
+
+    public static CreateGameDTO GetCreateGameDTO()
+    {
+        return new CreateGameDTO(GetGameStartData());
+    }
+
+    public static RequestGameDTO GetRequestGameDTO()
+    {
+        return new RequestGameDTO("somekey");
     }
     
     public static CastleData GetCastleData()
