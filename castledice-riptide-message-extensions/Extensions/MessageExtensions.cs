@@ -6,6 +6,16 @@ namespace castledice_riptide_dto_adapters.Extensions;
 
 public static class MessageExtensions
 {
+    public static void AddCancelGameDTO(this Message message, CancelGameDTO dto)
+    {
+        message.AddString(dto.VerificationKey);
+    }
+
+    public static CancelGameDTO GetCancelGameDTO(this Message message)
+    {
+        return new CancelGameDTO(message.GetString());
+    }
+    
     public static void AddCancelGameResultDTO(this Message message, CancelGameResultDTO dto)
     {
         message.AddBool(dto.IsCanceled);
