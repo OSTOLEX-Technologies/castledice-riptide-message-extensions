@@ -8,13 +8,13 @@ namespace castledice_riptide_dto_adapters_tests;
 public class MessageExtensionsTests
 {
     [Fact]
-    public void AddInitializeClientDTO_ShouldAddInitializeClientDTOToMessage()
+    public void AddInitializePlayerDTO_ShouldAddInitializePlayerDTOToMessage()
     {
-        var DTOToSend = new InitializeClientDTO("somekey");
+        var DTOToSend = new InitializePlayerDTO("somekey");
         var message = GetEmptyMessage();
         
-        message.AddInitializeClientDTO(DTOToSend);
-        var receivedDTO = message.GetInitializeClientDTO();
+        message.AddInitializePlayerDTO(DTOToSend);
+        var receivedDTO = message.GetInitializePlayerDTO();
         
         Assert.Equal(DTOToSend, receivedDTO);
     }
