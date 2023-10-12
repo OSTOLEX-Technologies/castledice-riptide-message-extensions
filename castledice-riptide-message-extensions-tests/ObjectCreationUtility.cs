@@ -15,8 +15,8 @@ public static class ObjectCreationUtility
     public static Message GetEmptyMessage()
     {
         var message = Message.Create(MessageSendMode.Unreliable, 1);
-        message.GetUShort();
-        message.GetUShort();
+        message.GetByte();
+        message.GetByte();
         return message;
     }
 
