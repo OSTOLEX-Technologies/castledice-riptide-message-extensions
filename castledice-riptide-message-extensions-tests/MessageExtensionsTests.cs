@@ -8,6 +8,18 @@ namespace castledice_riptide_dto_adapters_tests;
 public class MessageExtensionsTests
 {
     [Fact]
+    public void AddCancelGameDTO_ShouldAddCancelGameDTOToMessage()
+    {
+        var DTOToSend = new CancelGameDTO("somekey");
+        var message = GetEmptyMessage();
+        
+        message.AddCancelGameDTO(DTOToSend);
+        var receivedDTO = message.GetCancelGameDTO();
+        
+        Assert.Equal(DTOToSend, receivedDTO); 
+    }
+    
+    [Fact]
     public void AddCancelGameResultDTO_ShouldAddCancelGameResultDTOToMessage()
     {
         var DTOToSend = new CancelGameResultDTO(true);
