@@ -13,8 +13,8 @@ public class MessageExtensionsTests
         var DTOToSend = new InitializePlayerDTO("somekey");
         var message = GetEmptyMessage();
         
-        message.AddInitializeClientDTO(DTOToSend);
-        var receivedDTO = message.GetInitializeClientDTO();
+        message.AddInitializePlayerDTO(DTOToSend);
+        var receivedDTO = message.GetInitializePlayerDTO();
         
         Assert.Equal(DTOToSend, receivedDTO);
     }
