@@ -1,5 +1,7 @@
 ﻿using castledice_game_data_logic;
 using castledice_game_data_logic.Content;
+using castledice_game_data_logic.Content.Generated;
+using castledice_game_data_logic.Content.Placeable;
 using castledice_game_logic.GameObjects;
 using castledice_game_logic.Math;
 using castledice_riptide_dto_adapters.Extensions;
@@ -39,18 +41,39 @@ public class InternalMessageExtensionsTests
     }
 
     [Theory]
-    [MemberData(nameof(AddContentDataTestCases))]
-    public void AddContentData_ShouldAddContentDataToMessage(ContentData sentData)
+    [MemberData(nameof(AddPlaceableContentDataTestCases))]
+    public void AddPlaceableContentData_ShouldAddPlaceableContentDataToMessage(PlaceableContentData sentData)
     {
         var message = GetEmptyMessage();
         
-        message.AddContentData(sentData);
-        var retrievedData = message.GetContentData();
+        message.AddPlaceableContentData(sentData);
+        var retrievedData = message.GetPlaceableContentData();
         
         Assert.Equal(sentData, retrievedData);
     }
 
-    public static IEnumerable<object[]> AddContentDataTestCases()
+    public static IEnumerable<object[]> AddPlaceableContentDataTestCases()
+    {
+        yield return new object[]
+        {
+            GetKnightData()
+        };
+    }
+    
+
+    [Theory]
+    [MemberData(nameof(AddGeneratedContentDataTestCases))]
+    public void AddGeneratedContentData_ShouldAddGeneratedContentDataToMessage(GeneratedContentData sentData)
+    {
+        var message = GetEmptyMessage();
+        
+        message.AddGeneratedContentData(sentData);
+        var retrievedData = message.GetGeneratedContentData();
+        
+        Assert.Equal(sentData, retrievedData);
+    }
+
+    public static IEnumerable<object[]> AddGeneratedContentDataTestCases()
     {
         yield return new object[]
         {
@@ -63,22 +86,46 @@ public class InternalMessageExtensionsTests
     }
 
     [Theory]
-    [MemberData(nameof(AddContentDataListTestCases))]
-    public void AddContentDataList_ShouldAddContentDataListToMessage(List<ContentData> sentList)
+    [MemberData(nameof(AddPlaceableContentDataListTestCases))]
+    public void AddPlaceableContentDataList_ShouldAddPlaceableContentDataListToMessage(List<PlaceableContentData> sentList)
     {
         var message = GetEmptyMessage();
         
-        message.AddContentDataList(sentList);
-        var retrievedList = message.GetContentDataList();
+        message.AddPlaceableContentDataList(sentList);
+        var retrievedList = message.GetPlaceableContentDataList();
+        
+        Assert.Equal(sentList, retrievedList);
+    }
+
+    public static IEnumerable<object[]> AddPlaceableContentDataListTestCases()
+    {
+        yield return new object[]
+        {
+            new List<PlaceableContentData>
+            {
+                GetKnightData()
+            }
+        };
+    }
+    
+
+    [Theory]
+    [MemberData(nameof(AddGeneratedContentDataListTestCases))]
+    public void AddGeneratedContentDataList_ShouldAddGeneratedContentDataListToMessage(List<GeneratedContentData> sentList)
+    {
+        var message = GetEmptyMessage();
+        
+        message.AddGeneratedContentDataList(sentList);
+        var retrievedList = message.GetGeneratedContentDataList();
         
         Assert.Equal(sentList, retrievedList);
     }
     
-    public static IEnumerable<object[]> AddContentDataListTestCases()
+    public static IEnumerable<object[]> AddGeneratedContentDataListTestCases()
     {
         yield return new object[]
         {
-            new List<ContentData>
+            new List<GeneratedContentData>
             {
                 GetCastleData(), 
                 GetTreeData()
@@ -86,7 +133,7 @@ public class InternalMessageExtensionsTests
         };
         yield return new object[]
         {
-            new List<ContentData>
+            new List<GeneratedContentData>
             {
                 GetCastleData(), 
                 GetCastleData()
@@ -94,7 +141,7 @@ public class InternalMessageExtensionsTests
         };
         yield return new object[]
         {
-            new List<ContentData>
+            new List<GeneratedContentData>
             {
                 GetCastleData(),
                 GetTreeData(),

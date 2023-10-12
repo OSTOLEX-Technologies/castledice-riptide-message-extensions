@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using castledice_game_data_logic;
-using castledice_game_data_logic.Content;
+using castledice_game_data_logic.Content.Generated;
+using castledice_game_data_logic.Content.Placeable;
 using castledice_game_logic;
 using castledice_game_logic.GameObjects;
 using castledice_game_logic.Math;
@@ -17,9 +18,8 @@ internal static class InternalMessageExtensions
         message.AddInt(data.BoardWidth);
         message.AddInt((int)data.CellType);
         message.Add2DBoolArray(data.CellsPresence);
-        message.AddContentDataList(data.GeneratedContent);
-        message.AddInt(data.KnightHealth);
-        message.AddInt(data.KnightPlaceCost);
+        message.AddGeneratedContentDataList(data.GeneratedContent);
+        message.AddPlaceableContentDataList(data.PlaceablesConfigs);
         message.AddIntList(data.PlayersIds);
         message.AddPlayerDeckDataList(data.Decks);
     }
@@ -30,13 +30,12 @@ internal static class InternalMessageExtensions
         var boardWidth = message.GetInt();
         var cellType = (CellType)message.GetInt();
         var cellsPresence = message.Get2DBoolArray(boardLength, boardWidth);
-        var generatedContent = message.GetContentDataList();
-        var knightHealth = message.GetInt();
-        var knightPlaceCost = message.GetInt();
+        var generatedContent = message.GetGeneratedContentDataList();
+        var placeablesConfigs = message.GetPlaceableContentDataList();
         var playersIds = message.GetIntList();
         var decks = message.GetPlayerDeckDataList();
-        return new GameStartData(boardLength, boardWidth, cellType, cellsPresence, generatedContent, knightHealth, knightPlaceCost, playersIds, decks);
-    }
+        return new GameStartData(boardLength, boardWidth, cellType, cellsPresence, generatedContent, placeablesConfigs, playersIds, decks);
+    } 
     
     internal static void AddPlayerDeckDataList(this Message message, List<PlayerDeckData> list)
     {
@@ -70,15 +69,25 @@ internal static class InternalMessageExtensions
     {
         return GetList(message, mes => mes.GetInt());
     }
-    
-    internal static void AddContentDataList(this Message message, List<ContentData> list)
+
+    internal static void AddPlaceableContentDataList(this Message message, List<PlaceableContentData> list)
     {
-        AddList(message, list, AddContentData);
+        AddList(message, list, AddPlaceableContentData);
     }
 
-    internal static List<ContentData> GetContentDataList(this Message message)
+    internal static List<PlaceableContentData> GetPlaceableContentDataList(this Message message)
     {
-        return GetList(message, GetContentData);
+        return GetList(message, GetPlaceableContentData);
+    }
+    
+    internal static void AddGeneratedContentDataList(this Message message, List<GeneratedContentData> list)
+    {
+        AddList(message, list, AddGeneratedContentData);
+    }
+
+    internal static List<GeneratedContentData> GetGeneratedContentDataList(this Message message)
+    {
+        return GetList(message, GetGeneratedContentData);
     }
 
     private static void AddList<T>(Message message, List<T> list, Action<Message, T> addFunction)
@@ -101,31 +110,51 @@ internal static class InternalMessageExtensions
         return list;
     }
 
-    internal static void AddContentData(this Message message, ContentData data)
+    internal static void AddPlaceableContentData(this Message message, PlaceableContentData data)
     {
         var adder = new ContentDataAdder(message);
-        adder.AddContentData(data);
+        adder.AddPlaceableContentData(data);
     }
 
-    internal static ContentData GetContentData(this Message message)
+    internal static PlaceableContentData GetPlaceableContentData(this Message message)
     {
-        var position = message.GetVector2Int();
-        var type = (ContentDataType)message.GetInt();
+        var type = (PlacementType)message.GetInt();
         switch (type)
         {
-            case ContentDataType.Castle:
+            case PlacementType.Knight:
+                var placementCost = message.GetInt();
+                var health = message.GetInt();
+                return new KnightData(placementCost, health);
+            default:
+                throw new ArgumentException("Unfamiliar PlacementType: " + type);
+        }
+    }
+
+    internal static void AddGeneratedContentData(this Message message, GeneratedContentData data)
+    {
+        var adder = new ContentDataAdder(message);
+        adder.AddGeneratedContentData(data);
+    }
+
+    internal static GeneratedContentData GetGeneratedContentData(this Message message)
+    {
+        var position = message.GetVector2Int();
+        var type = (GeneratedContentDataType)message.GetInt();
+        switch (type)
+        {
+            case GeneratedContentDataType.Castle:
                 var captureHitCost = message.GetInt();
                 var freeDurability = message.GetInt();
                 var defaultDurability = message.GetInt();
                 var durability = message.GetInt();
                 var ownerId = message.GetInt();
                 return new CastleData(position, captureHitCost, freeDurability, defaultDurability, durability, ownerId);
-            case ContentDataType.Tree:
+            case GeneratedContentDataType.Tree:
                 var removeCost = message.GetInt();
                 var canBeRemoved = message.GetBool();
                 return new TreeData(position, removeCost, canBeRemoved);
             default:
-                throw new ArgumentException("Unfamiliar ContentDataType: " + type);
+                throw new ArgumentException("Unfamiliar GeneratedContentDataType: " + type);
         }
     }
     

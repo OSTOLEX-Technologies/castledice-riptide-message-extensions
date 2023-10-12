@@ -1,4 +1,6 @@
 ﻿using castledice_game_data_logic.Content;
+using castledice_game_data_logic.Content.Generated;
+using castledice_game_data_logic.Content.Placeable;
 using castledice_riptide_dto_adapters.Extensions;
 using Riptide;
 
@@ -16,9 +18,15 @@ internal class ContentDataAdder : IContentDataVisitor<int>
         _message = message;
     }
 
-    internal void AddContentData(ContentData data)
+    internal void AddGeneratedContentData(GeneratedContentData data)
     {
         _message.AddVector2Int(data.Position);
+        _message.AddInt((int)data.Type);
+        data.Accept(this);
+    }
+
+    internal void AddPlaceableContentData(PlaceableContentData data)
+    {
         _message.AddInt((int)data.Type);
         data.Accept(this);
     }
@@ -37,6 +45,13 @@ internal class ContentDataAdder : IContentDataVisitor<int>
     {
         _message.AddInt(data.RemoveCost);
         _message.AddBool(data.CanBeRemoved);
+        return 0;
+    }
+
+    public int VisitKnightData(KnightData data)
+    {
+        _message.AddInt(data.PlacementCost);
+        _message.AddInt(data.Health);
         return 0;
     }
 }
