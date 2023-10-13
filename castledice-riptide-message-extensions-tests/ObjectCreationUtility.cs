@@ -38,6 +38,7 @@ public static class ObjectCreationUtility
     
     public static GameStartData GetGameStartData()
     {
+        var version = "1.0.0";
         var boardLength = 10;
         var boardWidth = 10;
         var cellType = CellType.Square;
@@ -55,7 +56,7 @@ public static class ObjectCreationUtility
             new(playerIds[0], new List<PlacementType> { PlacementType.Knight }),
             new (playerIds[1], new List<PlacementType> { PlacementType.Knight })
         };
-        var data = new GameStartData(boardLength, boardWidth, cellType, cellsPresence, generatedContent, placeablesConfigs, playerIds, playerDecks);
+        var data = new GameStartData(version, boardLength, boardWidth, cellType, cellsPresence, generatedContent, placeablesConfigs, playerIds, playerDecks);
         return data;
     }
 

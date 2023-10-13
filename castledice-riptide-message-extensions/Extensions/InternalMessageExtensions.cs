@@ -14,6 +14,7 @@ internal static class InternalMessageExtensions
 {
     internal static void AddGameStartData(this Message message, GameStartData data)
     {
+        message.AddString(data.Version);
         message.AddInt(data.BoardLength);
         message.AddInt(data.BoardWidth);
         message.AddInt((int)data.CellType);
@@ -26,6 +27,7 @@ internal static class InternalMessageExtensions
 
     internal static GameStartData GetGameStartData(this Message message)
     {
+        var version = message.GetString();
         var boardLength = message.GetInt();
         var boardWidth = message.GetInt();
         var cellType = (CellType)message.GetInt();
@@ -34,7 +36,7 @@ internal static class InternalMessageExtensions
         var placeablesConfigs = message.GetPlaceableContentDataList();
         var playersIds = message.GetIntList();
         var decks = message.GetPlayerDeckDataList();
-        return new GameStartData(boardLength, boardWidth, cellType, cellsPresence, generatedContent, placeablesConfigs, playersIds, decks);
+        return new GameStartData(version, boardLength, boardWidth, cellType, cellsPresence, generatedContent, placeablesConfigs, playersIds, decks);
     } 
     
     internal static void AddPlayerDeckDataList(this Message message, List<PlayerDeckData> list)
