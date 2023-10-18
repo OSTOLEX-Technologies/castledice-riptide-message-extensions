@@ -29,11 +29,12 @@ public static class MessageExtensions
     public static void AddCancelGameResultDTO(this Message message, CancelGameResultDTO dto)
     {
         message.AddBool(dto.IsCanceled);
+        message.AddInt(dto.PlayerId);
     }
 
     public static CancelGameResultDTO GetCancelGameResultDTO(this Message message)
     {
-        return new CancelGameResultDTO(message.GetBool());
+        return new CancelGameResultDTO(message.GetBool(), message.GetInt());
     }
     
     public static void AddCreateGameDTO(this Message message, CreateGameDTO dto)

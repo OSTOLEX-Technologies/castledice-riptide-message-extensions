@@ -34,7 +34,7 @@ public class MessageExtensionsTests
     [Fact]
     public void AddCancelGameResultDTO_ShouldAddCancelGameResultDTOToMessage()
     {
-        var DTOToSend = new CancelGameResultDTO(true);
+        var DTOToSend = new CancelGameResultDTO(true, 11);
         var message = GetEmptyMessage();
         
         message.AddCancelGameResultDTO(DTOToSend);
