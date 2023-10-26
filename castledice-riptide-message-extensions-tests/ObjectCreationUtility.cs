@@ -20,11 +20,6 @@ public static class ObjectCreationUtility
         message.GetByte();
         return message;
     }
-
-    public static KnightData GetKnightData()
-    {
-        return new KnightData(1, 2);
-    }
     
     public static CastleData GetCastleData()
     {
@@ -46,11 +41,12 @@ public static class ObjectCreationUtility
         var playerIds = new List<int>() { 1, 2 };
         var firstCastle = new CastleData((0, 0), 1, 1, 3, 3, playerIds[0]);
         var secondCastle = new CastleData((9, 9), 1, 1, 3, 3, playerIds[1]);
-        var generatedContent = new List<GeneratedContentData>() { firstCastle, secondCastle };
-        var placeablesConfigs = new List<PlaceableContentData>
+        var generatedContent = new List<GeneratedContentData>
         {
-            new KnightData(1, 2)
+            firstCastle, 
+            secondCastle
         };
+        var placeablesConfigs = new PlaceablesConfigData(GetKnightConfigData());
         var playerDecks = new List<PlayerDeckData>()
         {
             new(playerIds[0], new List<PlacementType> { PlacementType.Knight }),
@@ -58,6 +54,11 @@ public static class ObjectCreationUtility
         };
         var data = new GameStartData(version, boardLength, boardWidth, cellType, cellsPresence, generatedContent, placeablesConfigs, playerIds, playerDecks);
         return data;
+    }
+    
+    public static KnightConfigData GetKnightConfigData()
+    {
+        return new KnightConfigData(1, 2);
     }
 
     public static bool[,] GetNByNTrueBoolMatrix(int size)

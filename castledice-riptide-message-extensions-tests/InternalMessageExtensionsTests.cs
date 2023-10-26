@@ -1,5 +1,4 @@
 ﻿using castledice_game_data_logic;
-using castledice_game_data_logic.Content;
 using castledice_game_data_logic.Content.Generated;
 using castledice_game_data_logic.Content.Placeable;
 using castledice_game_logic.GameObjects;
@@ -41,34 +40,13 @@ public class InternalMessageExtensionsTests
     }
 
     [Theory]
-    [MemberData(nameof(AddPlaceableContentDataTestCases))]
-    public void AddPlaceableContentData_ShouldAddPlaceableContentDataToMessage(PlaceableContentData sentData)
-    {
-        var message = GetEmptyMessage();
-        
-        message.AddPlaceableContentData(sentData);
-        var retrievedData = message.GetPlaceableContentData();
-        
-        Assert.Equal(sentData, retrievedData);
-    }
-
-    public static IEnumerable<object[]> AddPlaceableContentDataTestCases()
-    {
-        yield return new object[]
-        {
-            GetKnightData()
-        };
-    }
-    
-
-    [Theory]
     [MemberData(nameof(AddGeneratedContentDataTestCases))]
     public void AddGeneratedContentData_ShouldAddGeneratedContentDataToMessage(GeneratedContentData sentData)
     {
         var message = GetEmptyMessage();
         
         message.AddGeneratedContentData(sentData);
-        var retrievedData = message.GetGeneratedContentData();
+        var retrievedData = message.GetContentData();
         
         Assert.Equal(sentData, retrievedData);
     }
@@ -84,30 +62,6 @@ public class InternalMessageExtensionsTests
             GetTreeData()
         };
     }
-
-    [Theory]
-    [MemberData(nameof(AddPlaceableContentDataListTestCases))]
-    public void AddPlaceableContentDataList_ShouldAddPlaceableContentDataListToMessage(List<PlaceableContentData> sentList)
-    {
-        var message = GetEmptyMessage();
-        
-        message.AddPlaceableContentDataList(sentList);
-        var retrievedList = message.GetPlaceableContentDataList();
-        
-        Assert.Equal(sentList, retrievedList);
-    }
-
-    public static IEnumerable<object[]> AddPlaceableContentDataListTestCases()
-    {
-        yield return new object[]
-        {
-            new List<PlaceableContentData>
-            {
-                GetKnightData()
-            }
-        };
-    }
-    
 
     [Theory]
     [MemberData(nameof(AddGeneratedContentDataListTestCases))]
@@ -216,6 +170,20 @@ public class InternalMessageExtensionsTests
         };
         yield return new object[]
         {
+            new List<PlayerDeckData>
+            {
+                new (3, new List<PlacementType>{ PlacementType.Knight, PlacementType.Bridge })
+            }
+        };
+        yield return new object[]
+        {
+            new List<PlayerDeckData>
+            {
+                new (1, new List<PlacementType>{ PlacementType.Knight })
+            }
+        };
+        yield return new object[]
+        {
             new List<PlayerDeckData>()
         };
     }
@@ -230,5 +198,54 @@ public class InternalMessageExtensionsTests
         var retrievedStartData = message.GetGameStartData();
         
         Assert.Equal(sentStartData, retrievedStartData);
+    }
+    
+    
+    [Theory]
+    [MemberData(nameof(KnightConfigDataTestCases))]
+    public void AddKnightConfigData_ShouldAddKnightConfigDataToMessage(KnightConfigData sentConfigData)
+    {
+        var message = GetEmptyMessage();
+        
+        message.AddKnightConfigData(sentConfigData);
+        var retrievedConfigData = message.GetKnightConfigData();
+        
+        Assert.Equal(sentConfigData, retrievedConfigData);
+    }
+
+    public static IEnumerable<object[]> KnightConfigDataTestCases()
+    {
+        yield return new object[]
+        {
+            new KnightConfigData(1, 2)
+        };
+        yield return new object[]
+        {
+            new KnightConfigData(3, 4)
+        };
+    }
+    
+    [Theory]
+    [MemberData(nameof(PlaceablesConfigDataTestCases))]
+    public void AddPlaceablesConfigData_ShouldAddPlaceablesConfigDataToMessage(PlaceablesConfigData sentConfigData)
+    {
+        var message = GetEmptyMessage();
+        
+        message.AddPlaceablesConfigData(sentConfigData);
+        var retrievedConfigData = message.GetPlaceablesConfigData();
+        
+        Assert.Equal(sentConfigData, retrievedConfigData);
+    }
+    
+    public static IEnumerable<object[]> PlaceablesConfigDataTestCases()
+    {
+        yield return new object[]
+        {
+            new PlaceablesConfigData(GetKnightConfigData())
+        };
+        yield return new object[]
+        {
+            new PlaceablesConfigData(new KnightConfigData(3, 4))
+        };
     }
 }

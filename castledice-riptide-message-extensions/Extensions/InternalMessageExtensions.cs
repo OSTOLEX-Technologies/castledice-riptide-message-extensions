@@ -20,7 +20,7 @@ internal static class InternalMessageExtensions
         message.AddInt((int)data.CellType);
         message.Add2DBoolArray(data.CellsPresence);
         message.AddGeneratedContentDataList(data.GeneratedContent);
-        message.AddPlaceableContentDataList(data.PlaceablesConfigs);
+        message.AddPlaceablesConfigData(data.PlaceablesConfigs);
         message.AddIntList(data.PlayersIds);
         message.AddPlayerDeckDataList(data.Decks);
     }
@@ -33,11 +33,36 @@ internal static class InternalMessageExtensions
         var cellType = (CellType)message.GetInt();
         var cellsPresence = message.Get2DBoolArray(boardLength, boardWidth);
         var generatedContent = message.GetGeneratedContentDataList();
-        var placeablesConfigs = message.GetPlaceableContentDataList();
+        var placeablesConfigs = message.GetPlaceablesConfigData();
         var playersIds = message.GetIntList();
         var decks = message.GetPlayerDeckDataList();
-        return new GameStartData(version, boardLength, boardWidth, cellType, cellsPresence, generatedContent, placeablesConfigs, playersIds, decks);
-    } 
+        return new GameStartData(version, boardLength, boardWidth, cellType, cellsPresence, generatedContent,
+            placeablesConfigs, playersIds, decks);
+    }
+
+    internal static void AddPlaceablesConfigData(this Message message, PlaceablesConfigData config)
+    {
+        message.AddKnightConfigData(config.KnightConfig);
+    }
+    
+    internal static PlaceablesConfigData GetPlaceablesConfigData(this Message message)
+    {
+        var knightConfig = message.GetKnightConfigData();
+        return new PlaceablesConfigData(knightConfig);
+    }
+    
+    internal static void AddKnightConfigData(this Message message, KnightConfigData data)
+    {
+        message.AddInt(data.PlacementCost);
+        message.AddInt(data.Health);
+    }
+    
+    internal static KnightConfigData GetKnightConfigData(this Message message)
+    {
+        var placementCost = message.GetInt();
+        var health = message.GetInt();
+        return new KnightConfigData(placementCost, health);
+    }
     
     internal static void AddPlayerDeckDataList(this Message message, List<PlayerDeckData> list)
     {
@@ -71,16 +96,6 @@ internal static class InternalMessageExtensions
     {
         return GetList(message, mes => mes.GetInt());
     }
-
-    internal static void AddPlaceableContentDataList(this Message message, List<PlaceableContentData> list)
-    {
-        AddList(message, list, AddPlaceableContentData);
-    }
-
-    internal static List<PlaceableContentData> GetPlaceableContentDataList(this Message message)
-    {
-        return GetList(message, GetPlaceableContentData);
-    }
     
     internal static void AddGeneratedContentDataList(this Message message, List<GeneratedContentData> list)
     {
@@ -89,7 +104,7 @@ internal static class InternalMessageExtensions
 
     internal static List<GeneratedContentData> GetGeneratedContentDataList(this Message message)
     {
-        return GetList(message, GetGeneratedContentData);
+        return GetList(message, GetContentData);
     }
 
     private static void AddList<T>(Message message, List<T> list, Action<Message, T> addFunction)
@@ -112,33 +127,13 @@ internal static class InternalMessageExtensions
         return list;
     }
 
-    internal static void AddPlaceableContentData(this Message message, PlaceableContentData data)
-    {
-        var adder = new ContentDataAdder(message);
-        adder.AddPlaceableContentData(data);
-    }
-
-    internal static PlaceableContentData GetPlaceableContentData(this Message message)
-    {
-        var type = (PlacementType)message.GetInt();
-        switch (type)
-        {
-            case PlacementType.Knight:
-                var placementCost = message.GetInt();
-                var health = message.GetInt();
-                return new KnightData(placementCost, health);
-            default:
-                throw new ArgumentException("Unfamiliar PlacementType: " + type);
-        }
-    }
-
     internal static void AddGeneratedContentData(this Message message, GeneratedContentData data)
     {
-        var adder = new ContentDataAdder(message);
+        var adder = new GeneratedContentDataAdder(message);
         adder.AddGeneratedContentData(data);
     }
 
-    internal static GeneratedContentData GetGeneratedContentData(this Message message)
+    internal static GeneratedContentData GetContentData(this Message message)
     {
         var position = message.GetVector2Int();
         var type = (GeneratedContentDataType)message.GetInt();
@@ -156,7 +151,7 @@ internal static class InternalMessageExtensions
                 var canBeRemoved = message.GetBool();
                 return new TreeData(position, removeCost, canBeRemoved);
             default:
-                throw new ArgumentException("Unfamiliar GeneratedContentDataType: " + type);
+                throw new ArgumentException("Unfamiliar ContentDataType: " + type);
         }
     }
     
