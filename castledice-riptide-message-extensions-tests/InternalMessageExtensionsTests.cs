@@ -248,4 +248,16 @@ public class InternalMessageExtensionsTests
             new PlaceablesConfigData(new KnightConfigData(3, 4))
         };
     }
+    
+    [Fact]
+    public void AddBoardConfigData_ShouldAddBoardConfigDataToMessage()
+    {
+        var sentConfigData = GetBoardConfigData();
+        var message = GetEmptyMessage();
+        
+        message.AddBoardConfigData(sentConfigData);
+        var retrievedConfigData = message.GetBoardConfigData();
+        
+        Assert.Equal(sentConfigData, retrievedConfigData);
+    }
 }

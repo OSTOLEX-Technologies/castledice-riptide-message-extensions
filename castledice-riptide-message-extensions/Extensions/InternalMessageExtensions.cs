@@ -15,12 +15,8 @@ internal static class InternalMessageExtensions
     internal static void AddGameStartData(this Message message, GameStartData data)
     {
         message.AddString(data.Version);
-        message.AddInt(data.BoardLength);
-        message.AddInt(data.BoardWidth);
-        message.AddInt((int)data.CellType);
-        message.Add2DBoolArray(data.CellsPresence);
-        message.AddGeneratedContentDataList(data.GeneratedContent);
-        message.AddPlaceablesConfigData(data.PlaceablesConfig);
+        message.AddBoardConfigData(data.BoardConfigData);
+        message.AddPlaceablesConfigData(data.PlaceablesConfigData);
         message.AddIntList(data.PlayersIds);
         message.AddPlayerDeckDataList(data.Decks);
     }
@@ -28,16 +24,30 @@ internal static class InternalMessageExtensions
     internal static GameStartData GetGameStartData(this Message message)
     {
         var version = message.GetString();
+        var boardConfigData = message.GetBoardConfigData();
+        var placeablesConfigs = message.GetPlaceablesConfigData();
+        var playersIds = message.GetIntList();
+        var decks = message.GetPlayerDeckDataList();
+        return new GameStartData(version, boardConfigData, placeablesConfigs, playersIds, decks);
+    }
+
+    internal static void AddBoardConfigData(this Message message, BoardConfigData data)
+    {
+        message.AddInt(data.BoardLength);
+        message.AddInt(data.BoardWidth);
+        message.AddInt((int)data.CellType);
+        message.Add2DBoolArray(data.CellsPresence);
+        message.AddGeneratedContentDataList(data.GeneratedContent);
+    }
+    
+    internal static BoardConfigData GetBoardConfigData(this Message message)
+    {
         var boardLength = message.GetInt();
         var boardWidth = message.GetInt();
         var cellType = (CellType)message.GetInt();
         var cellsPresence = message.Get2DBoolArray(boardLength, boardWidth);
         var generatedContent = message.GetGeneratedContentDataList();
-        var placeablesConfigs = message.GetPlaceablesConfigData();
-        var playersIds = message.GetIntList();
-        var decks = message.GetPlayerDeckDataList();
-        return new GameStartData(version, boardLength, boardWidth, cellType, cellsPresence, generatedContent,
-            placeablesConfigs, playersIds, decks);
+        return new BoardConfigData(boardLength, boardWidth, cellType, cellsPresence, generatedContent);
     }
 
     internal static void AddPlaceablesConfigData(this Message message, PlaceablesConfigData config)

@@ -1,6 +1,4 @@
-﻿using casltedice_events_logic.ClientToServer;
-using casltedice_events_logic.ServerToClient;
-using castledice_game_data_logic;
+﻿using castledice_game_data_logic;
 using castledice_game_data_logic.Content.Generated;
 using castledice_game_data_logic.Content.Placeable;
 using castledice_game_logic;
@@ -34,26 +32,32 @@ public static class ObjectCreationUtility
     public static GameStartData GetGameStartData()
     {
         var version = "1.0.0";
-        var boardLength = 10;
-        var boardWidth = 10;
-        var cellType = CellType.Square;
-        var cellsPresence = GetNByNTrueBoolMatrix(10);
         var playerIds = new List<int>() { 1, 2 };
-        var firstCastle = new CastleData((0, 0), 1, 1, 3, 3, playerIds[0]);
-        var secondCastle = new CastleData((9, 9), 1, 1, 3, 3, playerIds[1]);
-        var generatedContent = new List<GeneratedContentData>
-        {
-            firstCastle, 
-            secondCastle
-        };
+        var boardConfigData = GetBoardConfigData();
         var placeablesConfigs = new PlaceablesConfigData(GetKnightConfigData());
         var playerDecks = new List<PlayerDeckData>()
         {
             new(playerIds[0], new List<PlacementType> { PlacementType.Knight }),
             new (playerIds[1], new List<PlacementType> { PlacementType.Knight })
         };
-        var data = new GameStartData(version, boardLength, boardWidth, cellType, cellsPresence, generatedContent, placeablesConfigs, playerIds, playerDecks);
+        var data = new GameStartData(version, boardConfigData, placeablesConfigs, playerIds, playerDecks);
         return data;
+    }
+
+    public static BoardConfigData GetBoardConfigData()
+    {
+        var boardLength = 10;
+        var boardWidth = 10;
+        var cellType = CellType.Square;
+        var cellsPresence = GetNByNTrueBoolMatrix(10);
+        var firstCastle = new CastleData((0, 0), 1, 1, 3, 3, 1);
+        var secondCastle = new CastleData((9, 9), 1, 1, 3, 3, 2);
+        var generatedContent = new List<GeneratedContentData>
+        {
+            firstCastle, 
+            secondCastle
+        };
+        return new BoardConfigData(boardLength, boardWidth, cellType, cellsPresence, generatedContent);
     }
     
     public static KnightConfigData GetKnightConfigData()
