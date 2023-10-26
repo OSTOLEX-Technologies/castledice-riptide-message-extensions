@@ -33,7 +33,7 @@ public static class ObjectCreationUtility
     {
         var version = "1.0.0";
         var playerIds = new List<int>() { 1, 2 };
-        var boardConfigData = GetBoardConfigData();
+        var boardConfigData = GetBoardData();
         var placeablesConfigs = new PlaceablesConfigData(GetKnightConfigData());
         var playerDecks = new List<PlayerDeckData>()
         {
@@ -44,7 +44,7 @@ public static class ObjectCreationUtility
         return data;
     }
 
-    public static BoardConfigData GetBoardConfigData()
+    public static BoardData GetBoardData()
     {
         var boardLength = 10;
         var boardWidth = 10;
@@ -57,7 +57,7 @@ public static class ObjectCreationUtility
             firstCastle, 
             secondCastle
         };
-        return new BoardConfigData(boardLength, boardWidth, cellType, cellsPresence, generatedContent);
+        return new BoardData(boardLength, boardWidth, cellType, cellsPresence, generatedContent);
     }
     
     public static KnightConfigData GetKnightConfigData()

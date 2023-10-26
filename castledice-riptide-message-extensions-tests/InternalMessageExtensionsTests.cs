@@ -250,13 +250,13 @@ public class InternalMessageExtensionsTests
     }
     
     [Fact]
-    public void AddBoardConfigData_ShouldAddBoardConfigDataToMessage()
+    public void AddBoardData_ShouldAddBoardConfigDataToMessage()
     {
-        var sentConfigData = GetBoardConfigData();
+        var sentConfigData = GetBoardData();
         var message = GetEmptyMessage();
         
-        message.AddBoardConfigData(sentConfigData);
-        var retrievedConfigData = message.GetBoardConfigData();
+        message.AddBoardData(sentConfigData);
+        var retrievedConfigData = message.GetBoardData();
         
         Assert.Equal(sentConfigData, retrievedConfigData);
     }

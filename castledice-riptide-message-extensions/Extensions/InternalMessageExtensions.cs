@@ -15,7 +15,7 @@ internal static class InternalMessageExtensions
     internal static void AddGameStartData(this Message message, GameStartData data)
     {
         message.AddString(data.Version);
-        message.AddBoardConfigData(data.BoardConfigData);
+        message.AddBoardData(data.BoardData);
         message.AddPlaceablesConfigData(data.PlaceablesConfigData);
         message.AddIntList(data.PlayersIds);
         message.AddPlayerDeckDataList(data.Decks);
@@ -24,14 +24,14 @@ internal static class InternalMessageExtensions
     internal static GameStartData GetGameStartData(this Message message)
     {
         var version = message.GetString();
-        var boardConfigData = message.GetBoardConfigData();
+        var boardConfigData = message.GetBoardData();
         var placeablesConfigs = message.GetPlaceablesConfigData();
         var playersIds = message.GetIntList();
         var decks = message.GetPlayerDeckDataList();
         return new GameStartData(version, boardConfigData, placeablesConfigs, playersIds, decks);
     }
 
-    internal static void AddBoardConfigData(this Message message, BoardConfigData data)
+    internal static void AddBoardData(this Message message, BoardData data)
     {
         message.AddInt(data.BoardLength);
         message.AddInt(data.BoardWidth);
@@ -40,14 +40,14 @@ internal static class InternalMessageExtensions
         message.AddGeneratedContentDataList(data.GeneratedContent);
     }
     
-    internal static BoardConfigData GetBoardConfigData(this Message message)
+    internal static BoardData GetBoardData(this Message message)
     {
         var boardLength = message.GetInt();
         var boardWidth = message.GetInt();
         var cellType = (CellType)message.GetInt();
         var cellsPresence = message.Get2DBoolArray(boardLength, boardWidth);
         var generatedContent = message.GetGeneratedContentDataList();
-        return new BoardConfigData(boardLength, boardWidth, cellType, cellsPresence, generatedContent);
+        return new BoardData(boardLength, boardWidth, cellType, cellsPresence, generatedContent);
     }
 
     internal static void AddPlaceablesConfigData(this Message message, PlaceablesConfigData config)
