@@ -20,7 +20,7 @@ internal static class InternalMessageExtensions
         message.AddInt((int)data.CellType);
         message.Add2DBoolArray(data.CellsPresence);
         message.AddGeneratedContentDataList(data.GeneratedContent);
-        message.AddPlaceablesConfigData(data.PlaceablesConfigs);
+        message.AddPlaceablesConfigData(data.PlaceablesConfig);
         message.AddIntList(data.PlayersIds);
         message.AddPlayerDeckDataList(data.Decks);
     }
