@@ -151,11 +151,11 @@ internal static class InternalMessageExtensions
         {
             case GeneratedContentDataType.Castle:
                 var captureHitCost = message.GetInt();
-                var freeDurability = message.GetInt();
-                var defaultDurability = message.GetInt();
+                var maxFreeDurability = message.GetInt();
+                var maxDurability = message.GetInt();
                 var durability = message.GetInt();
                 var ownerId = message.GetInt();
-                return new CastleData(position, captureHitCost, freeDurability, defaultDurability, durability, ownerId);
+                return new CastleData(position, captureHitCost, maxFreeDurability, maxDurability, durability, ownerId);
             case GeneratedContentDataType.Tree:
                 var removeCost = message.GetInt();
                 var canBeRemoved = message.GetBool();

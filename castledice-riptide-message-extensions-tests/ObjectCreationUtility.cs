@@ -32,10 +32,10 @@ public static class ObjectCreationUtility
     public static GameStartData GetGameStartData()
     {
         var version = "1.0.0";
-        var playerIds = new List<int>() { 1, 2 };
+        var playerIds = new List<int> { 1, 2 };
         var boardConfigData = GetBoardData();
         var placeablesConfigs = new PlaceablesConfigData(GetKnightConfigData());
-        var playerDecks = new List<PlayerDeckData>()
+        var playerDecks = new List<PlayerDeckData>
         {
             new(playerIds[0], new List<PlacementType> { PlacementType.Knight }),
             new (playerIds[1], new List<PlacementType> { PlacementType.Knight })

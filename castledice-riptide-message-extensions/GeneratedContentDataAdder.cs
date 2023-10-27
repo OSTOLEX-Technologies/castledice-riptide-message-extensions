@@ -27,9 +27,9 @@ internal class GeneratedContentDataAdder : IGeneratedContentDataVisitor<int>
     
     public int VisitCastleData(CastleData data)
     {
-        _message.AddInt(data.CastleCaptureHitCost);
-        _message.AddInt(data.FreeDurability);
-        _message.AddInt(data.DefaultDurability);
+        _message.AddInt(data.CaptureHitCost);
+        _message.AddInt(data.MaxFreeDurability);
+        _message.AddInt(data.MaxDurability);
         _message.AddInt(data.Durability);
         _message.AddInt(data.OwnerId);
         return 0;
