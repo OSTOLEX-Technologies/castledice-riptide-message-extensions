@@ -1,5 +1,4 @@
 ﻿using castledice_game_data_logic.Content;
-using castledice_game_data_logic.Content.Generated;
 using castledice_riptide_dto_adapters.Extensions;
 using Riptide;
 
@@ -8,16 +7,16 @@ namespace castledice_riptide_dto_adapters;
 /// <summary>
 /// This class adds content data to a message.
 /// </summary>
-internal class GeneratedContentDataAdder : IGeneratedContentDataVisitor<int>
+internal class ContentDataAdder : IContentDataVisitor<int>
 {
     private readonly Message _message;
 
-    internal GeneratedContentDataAdder(Message message)
+    internal ContentDataAdder(Message message)
     {
         _message = message;
     }
 
-    internal void AddGeneratedContentData(GeneratedContentData data)
+    internal void AddContentData(ContentData data)
     {
         _message.AddVector2Int(data.Position);
         _message.AddInt((int)data.Type);

@@ -1,6 +1,6 @@
 ﻿using castledice_game_data_logic;
-using castledice_game_data_logic.Content.Generated;
-using castledice_game_data_logic.Content.Placeable;
+using castledice_game_data_logic.ConfigsData;
+using castledice_game_data_logic.Content;
 using castledice_game_logic;
 using castledice_game_logic.GameObjects;
 using Riptide;
@@ -52,12 +52,12 @@ public static class ObjectCreationUtility
         var cellsPresence = GetNByNTrueBoolMatrix(10);
         var firstCastle = new CastleData((0, 0), 1, 1, 3, 3, 1);
         var secondCastle = new CastleData((9, 9), 1, 1, 3, 3, 2);
-        var generatedContent = new List<GeneratedContentData>
+        var content = new List<ContentData>
         {
             firstCastle, 
             secondCastle
         };
-        return new BoardData(boardLength, boardWidth, cellType, cellsPresence, generatedContent);
+        return new BoardData(boardLength, boardWidth, cellType, cellsPresence, content);
     }
     
     public static KnightConfigData GetKnightConfigData()

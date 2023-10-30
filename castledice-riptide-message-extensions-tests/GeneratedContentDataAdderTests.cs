@@ -1,26 +1,26 @@
-﻿using castledice_game_data_logic.Content.Generated;
+﻿using castledice_game_data_logic.Content;
 using castledice_riptide_dto_adapters;
 using castledice_riptide_dto_adapters.Extensions;
 using static castledice_riptide_dto_adapters_tests.ObjectCreationUtility;
 
 namespace castledice_riptide_dto_adapters_tests;
 
-public class GeneratedContentDataAdderTests
+public class ContentDataAdderTests
 {
     [Theory]
-    [MemberData(nameof(AddGeneratedContentDataTestCases))]
-    public void AddGeneratedContentData_ShouldAddGeneratedContentDataToMessage(GeneratedContentData addedData)
+    [MemberData(nameof(AddContentDataTestCases))]
+    public void AddContentData_ShouldAddContentDataToMessage(ContentData addedData)
     {
         var message = GetEmptyMessage();
-        var contentDataAdder = new GeneratedContentDataAdder(message);
+        var contentDataAdder = new ContentDataAdder(message);
         
-        contentDataAdder.AddGeneratedContentData(addedData);
+        contentDataAdder.AddContentData(addedData);
         var retrievedData = message.GetContentData();
         
         Assert.Equal(addedData, retrievedData);
     }
 
-    public static IEnumerable<object[]> AddGeneratedContentDataTestCases()
+    public static IEnumerable<object[]> AddContentDataTestCases()
     {
         yield return new object[]
         {

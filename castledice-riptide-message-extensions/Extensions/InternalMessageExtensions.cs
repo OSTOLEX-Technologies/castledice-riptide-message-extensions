@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using castledice_game_data_logic;
-using castledice_game_data_logic.Content.Generated;
-using castledice_game_data_logic.Content.Placeable;
+using castledice_game_data_logic.ConfigsData;
+using castledice_game_data_logic.Content;
 using castledice_game_logic;
 using castledice_game_logic.GameObjects;
 using castledice_game_logic.Math;
@@ -37,7 +37,7 @@ internal static class InternalMessageExtensions
         message.AddInt(data.BoardWidth);
         message.AddInt((int)data.CellType);
         message.Add2DBoolArray(data.CellsPresence);
-        message.AddGeneratedContentDataList(data.GeneratedContent);
+        message.AddContentDataList(data.GeneratedContent);
     }
     
     internal static BoardData GetBoardData(this Message message)
@@ -46,8 +46,8 @@ internal static class InternalMessageExtensions
         var boardWidth = message.GetInt();
         var cellType = (CellType)message.GetInt();
         var cellsPresence = message.Get2DBoolArray(boardLength, boardWidth);
-        var generatedContent = message.GetGeneratedContentDataList();
-        return new BoardData(boardLength, boardWidth, cellType, cellsPresence, generatedContent);
+        var Content = message.GetContentDataList();
+        return new BoardData(boardLength, boardWidth, cellType, cellsPresence, Content);
     }
 
     internal static void AddPlaceablesConfigData(this Message message, PlaceablesConfigData config)
@@ -107,12 +107,12 @@ internal static class InternalMessageExtensions
         return GetList(message, mes => mes.GetInt());
     }
     
-    internal static void AddGeneratedContentDataList(this Message message, List<GeneratedContentData> list)
+    internal static void AddContentDataList(this Message message, List<ContentData> list)
     {
-        AddList(message, list, AddGeneratedContentData);
+        AddList(message, list, AddContentData);
     }
 
-    internal static List<GeneratedContentData> GetGeneratedContentDataList(this Message message)
+    internal static List<ContentData> GetContentDataList(this Message message)
     {
         return GetList(message, GetContentData);
     }
@@ -137,26 +137,26 @@ internal static class InternalMessageExtensions
         return list;
     }
 
-    internal static void AddGeneratedContentData(this Message message, GeneratedContentData data)
+    internal static void AddContentData(this Message message, ContentData data)
     {
-        var adder = new GeneratedContentDataAdder(message);
-        adder.AddGeneratedContentData(data);
+        var adder = new ContentDataAdder(message);
+        adder.AddContentData(data);
     }
 
-    internal static GeneratedContentData GetContentData(this Message message)
+    internal static ContentData GetContentData(this Message message)
     {
         var position = message.GetVector2Int();
-        var type = (GeneratedContentDataType)message.GetInt();
+        var type = (ContentDataType)message.GetInt();
         switch (type)
         {
-            case GeneratedContentDataType.Castle:
+            case ContentDataType.Castle:
                 var captureHitCost = message.GetInt();
                 var maxFreeDurability = message.GetInt();
                 var maxDurability = message.GetInt();
                 var durability = message.GetInt();
                 var ownerId = message.GetInt();
                 return new CastleData(position, captureHitCost, maxFreeDurability, maxDurability, durability, ownerId);
-            case GeneratedContentDataType.Tree:
+            case ContentDataType.Tree:
                 var removeCost = message.GetInt();
                 var canBeRemoved = message.GetBool();
                 return new TreeData(position, removeCost, canBeRemoved);

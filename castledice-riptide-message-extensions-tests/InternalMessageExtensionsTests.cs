@@ -1,6 +1,6 @@
 ﻿using castledice_game_data_logic;
-using castledice_game_data_logic.Content.Generated;
-using castledice_game_data_logic.Content.Placeable;
+using castledice_game_data_logic.ConfigsData;
+using castledice_game_data_logic.Content;
 using castledice_game_logic.GameObjects;
 using castledice_game_logic.Math;
 using castledice_riptide_dto_adapters.Extensions;
@@ -40,18 +40,18 @@ public class InternalMessageExtensionsTests
     }
 
     [Theory]
-    [MemberData(nameof(AddGeneratedContentDataTestCases))]
-    public void AddGeneratedContentData_ShouldAddGeneratedContentDataToMessage(GeneratedContentData sentData)
+    [MemberData(nameof(AddContentDataTestCases))]
+    public void AddContentData_ShouldAddContentDataToMessage(ContentData sentData)
     {
         var message = GetEmptyMessage();
         
-        message.AddGeneratedContentData(sentData);
+        message.AddContentData(sentData);
         var retrievedData = message.GetContentData();
         
         Assert.Equal(sentData, retrievedData);
     }
 
-    public static IEnumerable<object[]> AddGeneratedContentDataTestCases()
+    public static IEnumerable<object[]> AddContentDataTestCases()
     {
         yield return new object[]
         {
@@ -64,22 +64,22 @@ public class InternalMessageExtensionsTests
     }
 
     [Theory]
-    [MemberData(nameof(AddGeneratedContentDataListTestCases))]
-    public void AddGeneratedContentDataList_ShouldAddGeneratedContentDataListToMessage(List<GeneratedContentData> sentList)
+    [MemberData(nameof(AddContentDataListTestCases))]
+    public void AddContentDataList_ShouldAddContentDataListToMessage(List<ContentData> sentList)
     {
         var message = GetEmptyMessage();
         
-        message.AddGeneratedContentDataList(sentList);
-        var retrievedList = message.GetGeneratedContentDataList();
+        message.AddContentDataList(sentList);
+        var retrievedList = message.GetContentDataList();
         
         Assert.Equal(sentList, retrievedList);
     }
     
-    public static IEnumerable<object[]> AddGeneratedContentDataListTestCases()
+    public static IEnumerable<object[]> AddContentDataListTestCases()
     {
         yield return new object[]
         {
-            new List<GeneratedContentData>
+            new List<ContentData>
             {
                 GetCastleData(), 
                 GetTreeData()
@@ -87,7 +87,7 @@ public class InternalMessageExtensionsTests
         };
         yield return new object[]
         {
-            new List<GeneratedContentData>
+            new List<ContentData>
             {
                 GetCastleData(), 
                 GetCastleData()
@@ -95,7 +95,7 @@ public class InternalMessageExtensionsTests
         };
         yield return new object[]
         {
-            new List<GeneratedContentData>
+            new List<ContentData>
             {
                 GetCastleData(),
                 GetTreeData(),
