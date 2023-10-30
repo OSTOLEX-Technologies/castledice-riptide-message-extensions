@@ -30,5 +30,9 @@ public class ContentDataAdderTests
         {
             GetTreeData()
         };
+        yield return new object[]
+        {
+            GetKnightData()
+        };
     }
 }

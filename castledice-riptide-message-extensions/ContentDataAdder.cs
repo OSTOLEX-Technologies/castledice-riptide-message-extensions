@@ -40,4 +40,12 @@ internal class ContentDataAdder : IContentDataVisitor<int>
         _message.AddBool(data.CanBeRemoved);
         return 0;
     }
+
+    public int VisitKnightData(KnightData data)
+    {
+        _message.AddInt(data.Health);
+        _message.AddInt(data.PlaceCost);
+        _message.AddInt(data.OwnerId);
+        return 0;
+    }
 }
