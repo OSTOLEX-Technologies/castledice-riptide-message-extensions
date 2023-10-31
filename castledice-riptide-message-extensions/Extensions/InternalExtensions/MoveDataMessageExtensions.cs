@@ -2,6 +2,7 @@
 using castledice_game_logic.GameObjects;
 using castledice_game_logic.Math;
 using castledice_game_logic.MovesLogic;
+using castledice_riptide_dto_adapters.Extensions.InternalExtensions;
 using Riptide;
 
 namespace castledice_riptide_dto_adapters.Extensions;

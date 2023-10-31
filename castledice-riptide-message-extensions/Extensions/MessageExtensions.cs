@@ -1,5 +1,6 @@
 ﻿using casltedice_events_logic.ClientToServer;
 using casltedice_events_logic.ServerToClient;
+using castledice_riptide_dto_adapters.Extensions.InternalExtensions;
 using Riptide;
 
 namespace castledice_riptide_dto_adapters.Extensions;
