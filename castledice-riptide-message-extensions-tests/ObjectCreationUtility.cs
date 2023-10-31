@@ -1,6 +1,8 @@
-﻿using castledice_game_data_logic;
+﻿using casltedice_events_logic.ClientToServer;
+using castledice_game_data_logic;
 using castledice_game_data_logic.ConfigsData;
 using castledice_game_data_logic.Content;
+using castledice_game_data_logic.Moves;
 using castledice_game_logic;
 using castledice_game_logic.GameObjects;
 using Riptide;
@@ -68,6 +70,36 @@ public static class ObjectCreationUtility
     public static KnightConfigData GetKnightConfigData()
     {
         return new KnightConfigData(1, 2);
+    }
+    
+    public static MoveFromClientDTO GetMoveFromClientDTO(MoveData moveData)
+    {
+        return new MoveFromClientDTO(moveData, "sometoken");
+    }
+    
+    public static RemoveMoveData GetRemoveMoveData()
+    {
+        return new RemoveMoveData(1, (0, 0));
+    }
+    
+    public static ReplaceMoveData GetReplaceMoveData()
+    {
+        return new ReplaceMoveData(1, (0, 0), PlacementType.Knight);
+    }
+    
+    public static UpgradeMoveData GetUpgradeMoveData()
+    {
+        return new UpgradeMoveData(1, (0, 0));
+    }
+    
+    public static CaptureMoveData GetCaptureMoveData()
+    {
+        return new CaptureMoveData(1, (0, 0));
+    }
+    
+    public static PlaceMoveData GetPlaceMoveData()
+    {
+        return new PlaceMoveData(1, (0, 0), PlacementType.Knight);
     }
 
     public static bool[,] GetNByNTrueBoolMatrix(int size)

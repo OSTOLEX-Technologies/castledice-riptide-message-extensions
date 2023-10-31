@@ -69,4 +69,14 @@ public static class MessageExtensions
         var playerIds = message.GetIntList();
         return new MatchFoundDTO(playerIds);
     }
+    
+    public static void AddMoveFromClientDTO(this Message message, MoveFromClientDTO dto)
+    {
+        throw new NotImplementedException();
+    }
+    
+    public static MoveFromClientDTO GetMoveFromClientDTO(this Message message)
+    {
+        throw new NotImplementedException();
+    }
 }

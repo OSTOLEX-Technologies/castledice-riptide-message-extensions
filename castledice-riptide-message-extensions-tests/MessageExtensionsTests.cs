@@ -1,5 +1,6 @@
 ﻿using casltedice_events_logic.ClientToServer;
 using casltedice_events_logic.ServerToClient;
+using castledice_game_data_logic.Moves;
 using castledice_riptide_dto_adapters.Extensions;
 using static castledice_riptide_dto_adapters_tests.ObjectCreationUtility;
 
@@ -77,5 +78,42 @@ public class MessageExtensionsTests
         var receivedDTO = message.GetMatchFoundDTO();
         
         Assert.Equal(DTOToSend, receivedDTO);
+    }
+
+    [Theory]
+    [MemberData(nameof(MoveDataCases))]
+    public void AddMoveFromClientDTO_ShouldAddMoveFromClientDTOToMessage(MoveData moveData)
+    {
+        var DTOToSend = GetMoveFromClientDTO(moveData);
+        var message = GetEmptyMessage();
+        
+        message.AddMoveFromClientDTO(DTOToSend);
+        var receivedDTO = message.GetMoveFromClientDTO();
+        
+        Assert.Equal(DTOToSend, receivedDTO);
+    }
+
+    public static IEnumerable<object[]> MoveDataCases()
+    {
+        yield return new[]
+        {
+            GetRemoveMoveData()
+        };
+        yield return new[]
+        {
+            GetCaptureMoveData()
+        };
+        yield return new[]
+        {
+            GetPlaceMoveData()
+        };
+        yield return new[]
+        {
+            GetReplaceMoveData()
+        };
+        yield return new[]
+        {
+            GetUpgradeMoveData()
+        };
     }
 }
