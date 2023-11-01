@@ -73,11 +73,15 @@ public static class MessageExtensions
     
     public static void AddMoveFromClientDTO(this Message message, MoveFromClientDTO dto)
     {
-        throw new NotImplementedException();
+        var moveDataAdder = new MoveDataAdder(message);
+        message.AddString(dto.VerificationKey);
+        moveDataAdder.AddMoveData(dto.MoveData);
     }
     
     public static MoveFromClientDTO GetMoveFromClientDTO(this Message message)
     {
-        throw new NotImplementedException();
+        var verificationKey = message.GetString();
+        var moveData = message.GetMoveData();
+        return new MoveFromClientDTO(moveData, verificationKey);
     }
 }
