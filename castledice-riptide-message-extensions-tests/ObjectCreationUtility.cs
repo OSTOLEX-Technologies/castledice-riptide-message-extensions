@@ -1,4 +1,5 @@
 ﻿using casltedice_events_logic.ClientToServer;
+using casltedice_events_logic.ServerToClient;
 using castledice_game_data_logic;
 using castledice_game_data_logic.ConfigsData;
 using castledice_game_data_logic.Content;
@@ -70,6 +71,11 @@ public static class ObjectCreationUtility
     public static KnightConfigData GetKnightConfigData()
     {
         return new KnightConfigData(1, 2);
+    }
+    
+    public static MoveFromServerDTO GetMoveFromServerDTO(MoveData moveData)
+    {
+        return new MoveFromServerDTO(moveData);
     }
     
     public static MoveFromClientDTO GetMoveFromClientDTO(MoveData moveData)

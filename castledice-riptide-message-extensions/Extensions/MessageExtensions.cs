@@ -84,4 +84,16 @@ public static class MessageExtensions
         var moveData = message.GetMoveData();
         return new MoveFromClientDTO(moveData, verificationKey);
     }
+
+    public static void AddMoveFromServerDTO(this Message message, MoveFromServerDTO dto)
+    {
+        var moveDataAdder = new MoveDataAdder(message);
+        moveDataAdder.AddMoveData(dto.MoveData);
+    }
+    
+    public static MoveFromServerDTO GetMoveFromServerDTO(this Message message)
+    {
+        var moveData = message.GetMoveData();
+        return new MoveFromServerDTO(moveData);
+    }
 }

@@ -93,6 +93,19 @@ public class MessageExtensionsTests
         Assert.Equal(DTOToSend, receivedDTO);
     }
 
+    [Theory]
+    [MemberData(nameof(MoveDataCases))]
+    public void AddMoveFromServerDTO_ShouldAddMoveFromServerDTOToMessage(MoveData moveData)
+    {
+        var DTOToSend = GetMoveFromServerDTO(moveData);
+        var message = GetEmptyMessage();
+        
+        message.AddMoveFromServerDTO(DTOToSend);
+        var receivedDTO = message.GetMoveFromServerDTO();
+        
+        Assert.Equal(DTOToSend, receivedDTO);
+    }
+
     public static IEnumerable<object[]> MoveDataCases()
     {
         yield return new[]
