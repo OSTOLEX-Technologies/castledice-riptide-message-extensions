@@ -129,4 +129,18 @@ public class MessageExtensionsTests
             GetUpgradeMoveData()
         };
     }
+    
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void AddApproveMoveDTO_ShouldAddApproveMoveDTOToMessage(bool isMoveValid)
+    {
+        var DTOToSend = new ApproveMoveDTO(isMoveValid);
+        var message = GetEmptyMessage();
+        
+        message.AddApproveMoveDTO(DTOToSend);
+        var receivedDTO = message.GetApproveMoveDTO();
+        
+        Assert.Equal(DTOToSend, receivedDTO);
+    }
 }

@@ -96,4 +96,15 @@ public static class MessageExtensions
         var moveData = message.GetMoveData();
         return new MoveFromServerDTO(moveData);
     }
+
+    public static void AddApproveMoveDTO(this Message message, ApproveMoveDTO dto)
+    {
+        message.AddBool(dto.IsMoveValid);
+    }
+    
+    public static ApproveMoveDTO GetApproveMoveDTO(this Message message)
+    {
+        var isMoveValid = message.GetBool();
+        return new ApproveMoveDTO(isMoveValid);
+    }
 }
