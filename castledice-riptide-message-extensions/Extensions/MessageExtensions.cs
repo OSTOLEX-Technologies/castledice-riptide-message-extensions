@@ -107,4 +107,17 @@ public static class MessageExtensions
         var isMoveValid = message.GetBool();
         return new ApproveMoveDTO(isMoveValid);
     }
+
+    public static void AddGiveActionPointsDTO(this Message message, GiveActionPointsDTO dto)
+    {
+        message.AddInt(dto.PlayerId);
+        message.AddInt(dto.Amount);
+    }
+    
+    public static GiveActionPointsDTO GetGiveActionPointsDTO(this Message message)
+    {
+        var playerId = message.GetInt();
+        var amount = message.GetInt();
+        return new GiveActionPointsDTO(playerId, amount);
+    }
 }

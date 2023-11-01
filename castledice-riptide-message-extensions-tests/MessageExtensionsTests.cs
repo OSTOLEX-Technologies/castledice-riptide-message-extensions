@@ -143,4 +143,19 @@ public class MessageExtensionsTests
         
         Assert.Equal(DTOToSend, receivedDTO);
     }
+    
+    [Theory]
+    [InlineData(1, 2)]
+    [InlineData(3, 4)]
+    [InlineData(5, 6)]
+    public void AddGiveActionPointsDTO_ShouldAddGiveActionPointsDTOToMessage(int playerId, int actionPoints)
+    {
+        var DTOToSend = new GiveActionPointsDTO(playerId, actionPoints);
+        var message = GetEmptyMessage();
+        
+        message.AddGiveActionPointsDTO(DTOToSend);
+        var receivedDTO = message.GetGiveActionPointsDTO();
+        
+        Assert.Equal(DTOToSend, receivedDTO);
+    }
 }
