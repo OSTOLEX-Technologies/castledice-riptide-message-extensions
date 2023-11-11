@@ -16,7 +16,7 @@ public static class MessageExtensions
     {
         return new InitializePlayerDTO(message.GetString());
     }
-    
+
     public static void AddCancelGameDTO(this Message message, CancelGameDTO dto)
     {
         message.AddString(dto.VerificationKey);
@@ -26,7 +26,7 @@ public static class MessageExtensions
     {
         return new CancelGameDTO(message.GetString());
     }
-    
+
     public static void AddCancelGameResultDTO(this Message message, CancelGameResultDTO dto)
     {
         message.AddBool(dto.IsCanceled);
@@ -37,7 +37,7 @@ public static class MessageExtensions
     {
         return new CancelGameResultDTO(message.GetBool(), message.GetInt());
     }
-    
+
     public static void AddCreateGameDTO(this Message message, CreateGameDTO dto)
     {
         message.AddGameStartData(dto.GameStartData);
@@ -64,20 +64,20 @@ public static class MessageExtensions
     {
         message.AddIntList(dto.PlayerIds);
     }
-    
-    public static MatchFoundDTO  GetMatchFoundDTO(this Message message)
+
+    public static MatchFoundDTO GetMatchFoundDTO(this Message message)
     {
         var playerIds = message.GetIntList();
         return new MatchFoundDTO(playerIds);
     }
-    
+
     public static void AddMoveFromClientDTO(this Message message, MoveFromClientDTO dto)
     {
         var moveDataAdder = new MoveDataAdder(message);
         message.AddString(dto.VerificationKey);
         moveDataAdder.AddMoveData(dto.MoveData);
     }
-    
+
     public static MoveFromClientDTO GetMoveFromClientDTO(this Message message)
     {
         var verificationKey = message.GetString();
@@ -90,7 +90,7 @@ public static class MessageExtensions
         var moveDataAdder = new MoveDataAdder(message);
         moveDataAdder.AddMoveData(dto.MoveData);
     }
-    
+
     public static MoveFromServerDTO GetMoveFromServerDTO(this Message message)
     {
         var moveData = message.GetMoveData();
@@ -101,7 +101,7 @@ public static class MessageExtensions
     {
         message.AddBool(dto.IsMoveValid);
     }
-    
+
     public static ApproveMoveDTO GetApproveMoveDTO(this Message message)
     {
         var isMoveValid = message.GetBool();
@@ -113,11 +113,22 @@ public static class MessageExtensions
         message.AddInt(dto.PlayerId);
         message.AddInt(dto.Amount);
     }
-    
+
     public static GiveActionPointsDTO GetGiveActionPointsDTO(this Message message)
     {
         var playerId = message.GetInt();
         var amount = message.GetInt();
         return new GiveActionPointsDTO(playerId, amount);
+    }
+
+    public static void AddPlayerReadyDTO(this Message message, PlayerReadyDTO dto)
+    {
+        message.AddString(dto.VerificationKey);
+    }
+
+    public static PlayerReadyDTO GetPlayerReadyDTO(this Message message)
+    {
+        var verificationKey = message.GetString();
+        return new PlayerReadyDTO(verificationKey);
     }
 }

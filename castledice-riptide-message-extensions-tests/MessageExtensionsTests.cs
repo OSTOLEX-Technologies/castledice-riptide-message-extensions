@@ -158,4 +158,19 @@ public class MessageExtensionsTests
         
         Assert.Equal(DTOToSend, receivedDTO);
     }
+
+    [Theory]
+    [InlineData("somekey")]
+    [InlineData("someotherkey")]
+    [InlineData("abscde")]
+    public void AddPlayerReadyDTO_ShouldAddPlayerReadyDTOToMessage(string verificationKey)
+    {
+        var DTOToSend = new PlayerReadyDTO(verificationKey);
+        var message = GetEmptyMessage();
+        
+        message.AddPlayerReadyDTO(DTOToSend);
+        var receivedDTO = message.GetPlayerReadyDTO();
+        
+        Assert.Equal(DTOToSend, receivedDTO);
+    }
 }
