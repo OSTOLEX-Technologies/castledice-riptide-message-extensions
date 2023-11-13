@@ -134,11 +134,12 @@ public static class MessageExtensions
     
     public static void AddServerErrorDTO(this Message message, ServerErrorDTO dto)
     {
-        throw new NotImplementedException();
+        message.AddErrorData(dto.ErrorData);
     }
     
     public static ServerErrorDTO GetServerErrorDTO(this Message message)
     {
-        throw new NotImplementedException();
+        var errorData = message.GetErrorData();
+        return new ServerErrorDTO(errorData);
     }
 }

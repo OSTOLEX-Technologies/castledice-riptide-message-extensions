@@ -1,5 +1,6 @@
 ﻿using casltedice_events_logic.ClientToServer;
 using casltedice_events_logic.ServerToClient;
+using castledice_game_data_logic.Errors;
 using castledice_game_data_logic.Moves;
 using castledice_riptide_dto_adapters.Extensions;
 using static castledice_riptide_dto_adapters_tests.ObjectCreationUtility;
@@ -170,6 +171,20 @@ public class MessageExtensionsTests
         
         message.AddPlayerReadyDTO(DTOToSend);
         var receivedDTO = message.GetPlayerReadyDTO();
+        
+        Assert.Equal(DTOToSend, receivedDTO);
+    }
+    
+    [Theory]
+    [InlineData("somekey", ErrorType.GameNotSaved)]
+    [InlineData("someotherkey", ErrorType.GameNotSaved)]
+    public void AddServerErrorDTO_ShouldAddServerErrorDTOToMessage(string messageStr, ErrorType errorType)
+    {
+        var DTOToSend = new ServerErrorDTO(new ErrorData(errorType, messageStr));
+        var message = GetEmptyMessage();
+        
+        message.AddServerErrorDTO(DTOToSend);
+        var receivedDTO = message.GetServerErrorDTO();
         
         Assert.Equal(DTOToSend, receivedDTO);
     }
