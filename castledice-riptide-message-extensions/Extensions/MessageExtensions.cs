@@ -131,4 +131,14 @@ public static class MessageExtensions
         var verificationKey = message.GetString();
         return new PlayerReadyDTO(verificationKey);
     }
+    
+    public static void AddServerErrorDTO(this Message message, ServerErrorDTO dto)
+    {
+        throw new NotImplementedException();
+    }
+    
+    public static ServerErrorDTO GetServerErrorDTO(this Message message)
+    {
+        throw new NotImplementedException();
+    }
 }

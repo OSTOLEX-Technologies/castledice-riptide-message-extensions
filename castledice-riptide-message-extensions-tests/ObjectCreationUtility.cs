@@ -3,6 +3,7 @@ using casltedice_events_logic.ServerToClient;
 using castledice_game_data_logic;
 using castledice_game_data_logic.ConfigsData;
 using castledice_game_data_logic.Content;
+using castledice_game_data_logic.Errors;
 using castledice_game_data_logic.Moves;
 using castledice_game_logic;
 using castledice_game_logic.GameObjects;
@@ -12,6 +13,11 @@ namespace castledice_riptide_dto_adapters_tests;
 
 public static class ObjectCreationUtility
 {
+    public static ErrorData GetErrorData()
+    {
+        return new ErrorData(ErrorType.GameNotSaved, "Game was not saved");
+    }
+    
     //This method reads UShort two times in order to remove additional information from the message.
     //This information is usually handled by riptide, but it is unnecessary in unit tests.
     public static Message GetEmptyMessage()
