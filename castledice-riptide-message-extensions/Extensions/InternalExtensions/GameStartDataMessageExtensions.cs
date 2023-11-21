@@ -21,6 +21,7 @@ public static class GameStartDataMessageExtensions
         var placeablesConfigs = message.GetPlaceablesConfigData();
         var playersIds = message.GetIntList();
         var decks = message.GetPlayerDeckDataList();
-        return new GameStartData(version, boardConfigData, placeablesConfigs, playersIds, decks);
+        throw new NotImplementedException();
+        //return new GameStartData(version, boardConfigData, placeablesConfigs, playersIds, decks);
     }
 }

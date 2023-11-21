@@ -9,12 +9,12 @@ public class MoveDataAdderTests
 {
     [Theory]
     [MemberData(nameof(MoveDataCases))]
-    public void AddMoveData_ShouldAddGivenMoveDataToMessage(MoveData addedData)
+    public void AddData_ShouldAddGivenMoveDataToMessage(MoveData addedData)
     {
         var message = GetEmptyMessage();
         var moveDataAdder = new MoveDataAdder(message);
 
-        moveDataAdder.AddMoveData(addedData);
+        moveDataAdder.AddData(addedData);
         var retrievedData = message.GetMoveData();
 
         Assert.Equal(addedData, retrievedData);
