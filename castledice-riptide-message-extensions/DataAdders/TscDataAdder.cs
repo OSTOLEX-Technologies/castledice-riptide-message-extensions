@@ -9,16 +9,18 @@ public class TscDataAdder : DataAdder<TscData>, ITscDataVisitor<int>
 
     internal override void AddData(TscData data)
     {
-        throw new NotImplementedException();
+        Message.AddInt((int)data.Type);
+        data.Accept(this);
     }
 
     public int VisitActionPointsConditionData(ActionPointsConditionData data)
     {
-        throw new NotImplementedException();
+        return 1;
     }
 
     public int VisitTimeConditionData(TimeConditionData data)
     {
-        throw new NotImplementedException();
+        Message.AddInt(data.TurnDuration);
+        return 1;
     }
 }

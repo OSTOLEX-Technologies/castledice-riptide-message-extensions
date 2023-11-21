@@ -10,6 +10,7 @@ public static class GameStartDataMessageExtensions
         message.AddString(data.Version);
         message.AddBoardData(data.BoardData);
         message.AddPlaceablesConfigData(data.PlaceablesConfigData);
+        message.AddTscDataList(data.TurnSwitchConditionsData);
         message.AddIntList(data.PlayersIds);
         message.AddPlayerDeckDataList(data.Decks);
     }
@@ -19,9 +20,10 @@ public static class GameStartDataMessageExtensions
         var version = message.GetString();
         var boardConfigData = message.GetBoardData();
         var placeablesConfigs = message.GetPlaceablesConfigData();
+        var turnSwitchConditionsData = message.GetTscDataList();
         var playersIds = message.GetIntList();
         var decks = message.GetPlayerDeckDataList();
-        throw new NotImplementedException();
-        //return new GameStartData(version, boardConfigData, placeablesConfigs, playersIds, decks);
+
+        return new GameStartData(version, boardConfigData, placeablesConfigs,turnSwitchConditionsData, playersIds, decks);
     }
 }

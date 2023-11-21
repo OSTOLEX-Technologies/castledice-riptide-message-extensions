@@ -1,8 +1,6 @@
 ﻿using castledice_game_data_logic.Content;
 using castledice_riptide_dto_adapters;
-using castledice_riptide_dto_adapters.Extensions;
 using castledice_riptide_dto_adapters.Extensions.InternalExtensions;
-using static castledice_riptide_dto_adapters_tests.ObjectCreationUtility;
 
 namespace castledice_riptide_dto_adapters_tests;
 
