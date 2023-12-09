@@ -8,22 +8,13 @@ using castledice_game_data_logic.Moves;
 using castledice_game_data_logic.TurnSwitchConditions;
 using castledice_game_logic;
 using castledice_game_logic.GameObjects;
+using castledice_game_logic.TurnsLogic.TurnSwitchConditions;
 using Riptide;
 
 namespace castledice_riptide_dto_adapters_tests;
 
 public static class ObjectCreationUtility
 {
-    public static ActionPointsConditionData GetActionPointsConditionData()
-    {
-        return new ActionPointsConditionData();
-    }
-    
-    public static TimeConditionData GetTimeConditionData(int turnDuration = 100)
-    {
-        return new TimeConditionData(turnDuration);
-    }
-    
     public static ErrorData GetErrorData()
     {
         return new ErrorData(ErrorType.GameNotSaved, "Game was not saved");
@@ -65,14 +56,8 @@ public static class ObjectCreationUtility
             new(playerIds[0], new List<PlacementType> { PlacementType.Knight }),
             new (playerIds[1], new List<PlacementType> { PlacementType.Knight })
         };
-        var actionPointsCondition = new ActionPointsConditionData();
-        var timeCondition = new TimeConditionData(100);
-        var turnSwitchConditions = new List<TscData>
-        {
-            actionPointsCondition,
-            timeCondition
-        };
-        var data = new GameStartData(version, boardConfigData, placeablesConfigs, turnSwitchConditions, playerIds, playerDecks);
+        var tscConfigData = new TscConfigData(new List<TscType> { TscType.SwitchByActionPoints });
+        var data = new GameStartData(version, boardConfigData, placeablesConfigs, tscConfigData, playerIds, playerDecks);
         return data;
     }
 

@@ -10,7 +10,7 @@ public static class GameStartDataMessageExtensions
         message.AddString(data.Version);
         message.AddBoardData(data.BoardData);
         message.AddPlaceablesConfigData(data.PlaceablesConfigData);
-        message.AddTscDataList(data.TurnSwitchConditionsData);
+        message.AddTscConfigData(data.TscConfigData);
         message.AddIntList(data.PlayersIds);
         message.AddPlayerDeckDataList(data.Decks);
     }
@@ -20,10 +20,10 @@ public static class GameStartDataMessageExtensions
         var version = message.GetString();
         var boardConfigData = message.GetBoardData();
         var placeablesConfigs = message.GetPlaceablesConfigData();
-        var turnSwitchConditionsData = message.GetTscDataList();
+        var tscConfigData = message.GetTscConfigData();
         var playersIds = message.GetIntList();
         var decks = message.GetPlayerDeckDataList();
 
-        return new GameStartData(version, boardConfigData, placeablesConfigs,turnSwitchConditionsData, playersIds, decks);
+        return new GameStartData(version, boardConfigData, placeablesConfigs,tscConfigData, playersIds, decks);
     }
 }
