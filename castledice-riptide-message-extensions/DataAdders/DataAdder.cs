@@ -1,6 +1,6 @@
 ﻿using Riptide;
 
-namespace castledice_riptide_dto_adapters;
+namespace castledice_riptide_dto_adapters.DataAdders;
 
 public abstract class DataAdder<T>
 {

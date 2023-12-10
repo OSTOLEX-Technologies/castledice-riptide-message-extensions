@@ -2,7 +2,7 @@
 using castledice_riptide_dto_adapters.Extensions.InternalExtensions;
 using Riptide;
 
-namespace castledice_riptide_dto_adapters;
+namespace castledice_riptide_dto_adapters.DataAdders;
 
 public class MoveDataAdder : DataAdder<MoveData>, IMoveDataVisitor<int>
 {

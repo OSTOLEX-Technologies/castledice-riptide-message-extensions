@@ -11,6 +11,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="castledice-game-data-logic" Version="0.0.1-dev4" />
+        <PackageReference Include="castledice-game-logic" Version="0.0.1-dev3" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0"/>
         <PackageReference Include="xunit" Version="2.4.2"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
@@ -24,19 +26,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="casltedice-events-logic">
-        <HintPath>..\..\casltedice-events-logic\casltedice-events-logic\bin\Debug\netstandard2.1\casltedice-events-logic.dll</HintPath>
-      </Reference>
-      <Reference Include="castledice-game-data-logic">
-        <HintPath>..\..\castledice-game-data-logic\castledice-game-data-logic\bin\Debug\netstandard2.1\castledice-game-data-logic.dll</HintPath>
-      </Reference>
-      <Reference Include="castledice-game-logic">
-        <HintPath>..\..\castledice-game-logic\castledice-game-logic\bin\Debug\netstandard2.1\castledice-game-logic.dll</HintPath>
-      </Reference>
+      <ProjectReference Include="..\castledice-riptide-message-extensions\castledice-riptide-message-extensions.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\castledice-riptide-message-extensions\castledice-riptide-message-extensions.csproj" />
+      <Reference Include="castledice-events-logic">
+        <HintPath>..\..\casltedice-events-logic\castledice-events-logic\castledice-events-logic\bin\Debug\netstandard2.1\castledice-events-logic.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>
