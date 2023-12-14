@@ -1,1 +1,2 @@
 global using Xunit;
+global using static castledice_riptide_dto_adapters_tests.ObjectCreationUtility;

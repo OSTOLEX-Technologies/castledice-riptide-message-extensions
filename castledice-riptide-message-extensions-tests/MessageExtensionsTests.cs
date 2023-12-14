@@ -1,7 +1,8 @@
-﻿using casltedice_events_logic.ClientToServer;
-using casltedice_events_logic.ServerToClient;
+﻿using castledice_events_logic.ClientToServer;
+using castledice_events_logic.ServerToClient;
+using castledice_game_data_logic.Errors;
+using castledice_game_data_logic.Moves;
 using castledice_riptide_dto_adapters.Extensions;
-using static castledice_riptide_dto_adapters_tests.ObjectCreationUtility;
 
 namespace castledice_riptide_dto_adapters_tests;
 
@@ -34,7 +35,7 @@ public class MessageExtensionsTests
     [Fact]
     public void AddCancelGameResultDTO_ShouldAddCancelGameResultDTOToMessage()
     {
-        var DTOToSend = new CancelGameResultDTO(true, 11);
+        var DTOToSend = new CancelGameResultDTO(true, 1);
         var message = GetEmptyMessage();
         
         message.AddCancelGameResultDTO(DTOToSend);
@@ -75,6 +76,114 @@ public class MessageExtensionsTests
         
         message.AddMatchFoundDTO(DTOToSend);
         var receivedDTO = message.GetMatchFoundDTO();
+        
+        Assert.Equal(DTOToSend, receivedDTO);
+    }
+
+    [Theory]
+    [MemberData(nameof(MoveDataCases))]
+    public void AddMoveFromClientDTO_ShouldAddMoveFromClientDTOToMessage(MoveData moveData)
+    {
+        var DTOToSend = GetMoveFromClientDTO(moveData);
+        var message = GetEmptyMessage();
+        
+        message.AddMoveFromClientDTO(DTOToSend);
+        var receivedDTO = message.GetMoveFromClientDTO();
+        
+        Assert.Equal(DTOToSend, receivedDTO);
+    }
+
+    [Theory]
+    [MemberData(nameof(MoveDataCases))]
+    public void AddMoveFromServerDTO_ShouldAddMoveFromServerDTOToMessage(MoveData moveData)
+    {
+        var DTOToSend = GetMoveFromServerDTO(moveData);
+        var message = GetEmptyMessage();
+        
+        message.AddMoveFromServerDTO(DTOToSend);
+        var receivedDTO = message.GetMoveFromServerDTO();
+        
+        Assert.Equal(DTOToSend, receivedDTO);
+    }
+
+    public static IEnumerable<object[]> MoveDataCases()
+    {
+        yield return new[]
+        {
+            GetRemoveMoveData()
+        };
+        yield return new[]
+        {
+            GetCaptureMoveData()
+        };
+        yield return new[]
+        {
+            GetPlaceMoveData()
+        };
+        yield return new[]
+        {
+            GetReplaceMoveData()
+        };
+        yield return new[]
+        {
+            GetUpgradeMoveData()
+        };
+    }
+    
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void AddApproveMoveDTO_ShouldAddApproveMoveDTOToMessage(bool isMoveValid)
+    {
+        var DTOToSend = new ApproveMoveDTO(isMoveValid);
+        var message = GetEmptyMessage();
+        
+        message.AddApproveMoveDTO(DTOToSend);
+        var receivedDTO = message.GetApproveMoveDTO();
+        
+        Assert.Equal(DTOToSend, receivedDTO);
+    }
+    
+    [Theory]
+    [InlineData(1, 2)]
+    [InlineData(3, 4)]
+    [InlineData(5, 6)]
+    public void AddGiveActionPointsDTO_ShouldAddGiveActionPointsDTOToMessage(int playerId, int actionPoints)
+    {
+        var DTOToSend = new GiveActionPointsDTO(playerId, actionPoints);
+        var message = GetEmptyMessage();
+        
+        message.AddGiveActionPointsDTO(DTOToSend);
+        var receivedDTO = message.GetGiveActionPointsDTO();
+        
+        Assert.Equal(DTOToSend, receivedDTO);
+    }
+
+    [Theory]
+    [InlineData("somekey")]
+    [InlineData("someotherkey")]
+    [InlineData("abscde")]
+    public void AddPlayerReadyDTO_ShouldAddPlayerReadyDTOToMessage(string verificationKey)
+    {
+        var DTOToSend = new PlayerReadyDTO(verificationKey);
+        var message = GetEmptyMessage();
+        
+        message.AddPlayerReadyDTO(DTOToSend);
+        var receivedDTO = message.GetPlayerReadyDTO();
+        
+        Assert.Equal(DTOToSend, receivedDTO);
+    }
+    
+    [Theory]
+    [InlineData("somekey", ErrorType.GameNotSaved)]
+    [InlineData("someotherkey", ErrorType.GameNotSaved)]
+    public void AddServerErrorDTO_ShouldAddServerErrorDTOToMessage(string messageStr, ErrorType errorType)
+    {
+        var DTOToSend = new ServerErrorDTO(new ErrorData(errorType, messageStr));
+        var message = GetEmptyMessage();
+        
+        message.AddServerErrorDTO(DTOToSend);
+        var receivedDTO = message.GetServerErrorDTO();
         
         Assert.Equal(DTOToSend, receivedDTO);
     }

@@ -1,7 +1,5 @@
 ﻿using castledice_game_data_logic.Content;
-using castledice_game_data_logic.Content.Generated;
-using castledice_game_data_logic.Content.Placeable;
-using castledice_riptide_dto_adapters.Extensions;
+using castledice_riptide_dto_adapters.Extensions.InternalExtensions;
 using Riptide;
 
 namespace castledice_riptide_dto_adapters;
@@ -18,24 +16,19 @@ internal class ContentDataAdder : IContentDataVisitor<int>
         _message = message;
     }
 
-    internal void AddGeneratedContentData(GeneratedContentData data)
+    internal void AddContentData(ContentData data)
     {
         _message.AddVector2Int(data.Position);
         _message.AddInt((int)data.Type);
         data.Accept(this);
     }
 
-    internal void AddPlaceableContentData(PlaceableContentData data)
-    {
-        _message.AddInt((int)data.Type);
-        data.Accept(this);
-    }
     
     public int VisitCastleData(CastleData data)
     {
-        _message.AddInt(data.CastleCaptureHitCost);
-        _message.AddInt(data.FreeDurability);
-        _message.AddInt(data.DefaultDurability);
+        _message.AddInt(data.CaptureHitCost);
+        _message.AddInt(data.MaxFreeDurability);
+        _message.AddInt(data.MaxDurability);
         _message.AddInt(data.Durability);
         _message.AddInt(data.OwnerId);
         return 0;
@@ -50,8 +43,9 @@ internal class ContentDataAdder : IContentDataVisitor<int>
 
     public int VisitKnightData(KnightData data)
     {
-        _message.AddInt(data.PlacementCost);
         _message.AddInt(data.Health);
+        _message.AddInt(data.PlaceCost);
+        _message.AddInt(data.OwnerId);
         return 0;
     }
 }

@@ -1,16 +1,25 @@
-﻿using casltedice_events_logic.ClientToServer;
-using casltedice_events_logic.ServerToClient;
+﻿using castledice_events_logic.ClientToServer;
+using castledice_events_logic.ServerToClient;
 using castledice_game_data_logic;
-using castledice_game_data_logic.Content.Generated;
-using castledice_game_data_logic.Content.Placeable;
+using castledice_game_data_logic.ConfigsData;
+using castledice_game_data_logic.Content;
+using castledice_game_data_logic.Errors;
+using castledice_game_data_logic.Moves;
+using castledice_game_data_logic.TurnSwitchConditions;
 using castledice_game_logic;
 using castledice_game_logic.GameObjects;
+using castledice_game_logic.TurnsLogic.TurnSwitchConditions;
 using Riptide;
 
 namespace castledice_riptide_dto_adapters_tests;
 
 public static class ObjectCreationUtility
 {
+    public static ErrorData GetErrorData()
+    {
+        return new ErrorData(ErrorType.GameNotSaved, "Game was not saved");
+    }
+    
     //This method reads UShort two times in order to remove additional information from the message.
     //This information is usually handled by riptide, but it is unnecessary in unit tests.
     public static Message GetEmptyMessage()
@@ -19,11 +28,6 @@ public static class ObjectCreationUtility
         message.GetByte();
         message.GetByte();
         return message;
-    }
-
-    public static KnightData GetKnightData()
-    {
-        return new KnightData(1, 2);
     }
     
     public static CastleData GetCastleData()
@@ -36,28 +40,81 @@ public static class ObjectCreationUtility
         return new TreeData((0, 0), 3, false);
     }
     
+    public static KnightData GetKnightData()
+    {
+        return new KnightData((0, 0), 1, 1, 1);
+    }
+    
     public static GameStartData GetGameStartData()
     {
         var version = "1.0.0";
-        var boardLength = 10;
-        var boardWidth = 10;
-        var cellType = CellType.Square;
-        var cellsPresence = GetNByNTrueBoolMatrix(10);
-        var playerIds = new List<int>() { 1, 2 };
-        var firstCastle = new CastleData((0, 0), 1, 1, 3, 3, playerIds[0]);
-        var secondCastle = new CastleData((9, 9), 1, 1, 3, 3, playerIds[1]);
-        var generatedContent = new List<GeneratedContentData>() { firstCastle, secondCastle };
-        var placeablesConfigs = new List<PlaceableContentData>
-        {
-            new KnightData(1, 2)
-        };
-        var playerDecks = new List<PlayerDeckData>()
+        var playerIds = new List<int> { 1, 2 };
+        var boardConfigData = GetBoardData();
+        var placeablesConfigs = new PlaceablesConfigData(GetKnightConfigData());
+        var playerDecks = new List<PlayerDeckData>
         {
             new(playerIds[0], new List<PlacementType> { PlacementType.Knight }),
             new (playerIds[1], new List<PlacementType> { PlacementType.Knight })
         };
-        var data = new GameStartData(version, boardLength, boardWidth, cellType, cellsPresence, generatedContent, placeablesConfigs, playerIds, playerDecks);
+        var tscConfigData = new TscConfigData(new List<TscType> { TscType.SwitchByActionPoints });
+        var data = new GameStartData(version, boardConfigData, placeablesConfigs, tscConfigData, playerIds, playerDecks);
         return data;
+    }
+
+    public static BoardData GetBoardData()
+    {
+        var boardLength = 10;
+        var boardWidth = 10;
+        var cellType = CellType.Square;
+        var cellsPresence = GetNByNTrueBoolMatrix(10);
+        var firstCastle = new CastleData((0, 0), 1, 1, 3, 3, 1);
+        var secondCastle = new CastleData((9, 9), 1, 1, 3, 3, 2);
+        var content = new List<ContentData>
+        {
+            firstCastle, 
+            secondCastle
+        };
+        return new BoardData(boardLength, boardWidth, cellType, cellsPresence, content);
+    }
+    
+    public static KnightConfigData GetKnightConfigData()
+    {
+        return new KnightConfigData(1, 2);
+    }
+    
+    public static MoveFromServerDTO GetMoveFromServerDTO(MoveData moveData)
+    {
+        return new MoveFromServerDTO(moveData);
+    }
+    
+    public static MoveFromClientDTO GetMoveFromClientDTO(MoveData moveData)
+    {
+        return new MoveFromClientDTO(moveData, "sometoken");
+    }
+    
+    public static RemoveMoveData GetRemoveMoveData()
+    {
+        return new RemoveMoveData(1, (0, 0));
+    }
+    
+    public static ReplaceMoveData GetReplaceMoveData()
+    {
+        return new ReplaceMoveData(1, (0, 0), PlacementType.Knight);
+    }
+    
+    public static UpgradeMoveData GetUpgradeMoveData()
+    {
+        return new UpgradeMoveData(1, (0, 0));
+    }
+    
+    public static CaptureMoveData GetCaptureMoveData()
+    {
+        return new CaptureMoveData(1, (0, 0));
+    }
+    
+    public static PlaceMoveData GetPlaceMoveData()
+    {
+        return new PlaceMoveData(1, (0, 0), PlacementType.Knight);
     }
 
     public static bool[,] GetNByNTrueBoolMatrix(int size)

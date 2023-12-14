@@ -1,28 +1,25 @@
 ﻿using castledice_game_data_logic.Content;
-using castledice_game_data_logic.Content.Generated;
-using castledice_game_data_logic.Content.Placeable;
 using castledice_riptide_dto_adapters;
-using castledice_riptide_dto_adapters.Extensions;
-using static castledice_riptide_dto_adapters_tests.ObjectCreationUtility;
+using castledice_riptide_dto_adapters.Extensions.InternalExtensions;
 
 namespace castledice_riptide_dto_adapters_tests;
 
 public class ContentDataAdderTests
 {
     [Theory]
-    [MemberData(nameof(GeneratedContentDataTestCases))]
-    public void AddGeneratedContentData_ShouldAddGeneratedContentDataToMessage(GeneratedContentData addedData)
+    [MemberData(nameof(AddContentDataTestCases))]
+    public void AddContentData_ShouldAddContentDataToMessage(ContentData addedData)
     {
         var message = GetEmptyMessage();
         var contentDataAdder = new ContentDataAdder(message);
         
-        contentDataAdder.AddGeneratedContentData(addedData);
-        var retrievedData = message.GetGeneratedContentData();
+        contentDataAdder.AddContentData(addedData);
+        var retrievedData = message.GetContentData();
         
         Assert.Equal(addedData, retrievedData);
     }
 
-    public static IEnumerable<object[]> GeneratedContentDataTestCases()
+    public static IEnumerable<object[]> AddContentDataTestCases()
     {
         yield return new object[]
         {
@@ -32,23 +29,6 @@ public class ContentDataAdderTests
         {
             GetTreeData()
         };
-    }
-    
-    [Theory]
-    [MemberData(nameof(PlaceableContentDataTestCases))]
-    public void AddPlaceableContentData_ShouldAddPlaceableContentDataToMessage(PlaceableContentData addedData)
-    {
-        var message = GetEmptyMessage();
-        var contentDataAdder = new ContentDataAdder(message);
-        
-        contentDataAdder.AddPlaceableContentData(addedData);
-        var retrievedData = message.GetPlaceableContentData();
-        
-        Assert.Equal(addedData, retrievedData);
-    }
-    
-    public static IEnumerable<object[]> PlaceableContentDataTestCases()
-    {
         yield return new object[]
         {
             GetKnightData()
