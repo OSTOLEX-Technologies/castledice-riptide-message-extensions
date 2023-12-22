@@ -11,6 +11,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="castledice-events-logic" Version="0.0.1-dev1" />
         <PackageReference Include="castledice-game-data-logic" Version="0.0.1-dev4" />
         <PackageReference Include="castledice-game-logic" Version="0.0.1-dev3" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0"/>
@@ -27,12 +28,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\castledice-riptide-message-extensions\castledice-riptide-message-extensions.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Reference Include="castledice-events-logic">
-        <HintPath>..\..\casltedice-events-logic\castledice-events-logic\castledice-events-logic\bin\Debug\netstandard2.1\castledice-events-logic.dll</HintPath>
-      </Reference>
     </ItemGroup>
 
 </Project>
