@@ -12,8 +12,8 @@
 
     <ItemGroup>
         <PackageReference Include="castledice-events-logic" Version="0.0.1-dev1" />
-        <PackageReference Include="castledice-game-data-logic" Version="0.0.1-dev4" />
-        <PackageReference Include="castledice-game-logic" Version="0.0.1-dev3" />
+        <PackageReference Include="castledice-game-data-logic" Version="0.0.1-dev5" />
+        <PackageReference Include="castledice-game-logic" Version="0.0.1-dev5" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0"/>
         <PackageReference Include="xunit" Version="2.4.2"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">

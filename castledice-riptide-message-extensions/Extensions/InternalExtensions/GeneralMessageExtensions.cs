@@ -74,4 +74,14 @@ internal static class GeneralMessageExtensions
         }
         return array;
     }
+    
+    internal static void AddTimeSpan(this Message message, TimeSpan timeSpan)
+    {
+        message.AddLong(timeSpan.Ticks);
+    }
+    
+    internal static TimeSpan GetTimeSpan(this Message message)
+    {
+        return new TimeSpan(message.GetLong());
+    }
 }

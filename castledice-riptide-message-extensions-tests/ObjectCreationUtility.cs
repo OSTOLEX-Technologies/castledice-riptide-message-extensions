@@ -48,16 +48,15 @@ public static class ObjectCreationUtility
     public static GameStartData GetGameStartData()
     {
         var version = "1.0.0";
-        var playerIds = new List<int> { 1, 2 };
         var boardConfigData = GetBoardData();
         var placeablesConfigs = new PlaceablesConfigData(GetKnightConfigData());
-        var playerDecks = new List<PlayerDeckData>
+        var playersData = new List<PlayerData>
         {
-            new(playerIds[0], new List<PlacementType> { PlacementType.Knight }),
-            new (playerIds[1], new List<PlacementType> { PlacementType.Knight })
+            new PlayerData(1, new List<PlacementType> { PlacementType.Knight }, new TimeSpan()),
+            new PlayerData(2, new List<PlacementType> { PlacementType.Knight }, new TimeSpan())
         };
         var tscConfigData = new TscConfigData(new List<TscType> { TscType.SwitchByActionPoints });
-        var data = new GameStartData(version, boardConfigData, placeablesConfigs, tscConfigData, playerIds, playerDecks);
+        var data = new GameStartData(version, boardConfigData, placeablesConfigs, tscConfigData, playersData);
         return data;
     }
 
@@ -129,5 +128,45 @@ public static class ObjectCreationUtility
         }
 
         return matrix;
+    }
+    
+    public static List<PlayerData> GetRandomPlayerDataList()
+    {
+        var list = new List<PlayerData>();
+        var random = new Random();
+        var count = random.Next(1, 5);
+        for (int i = 0; i < count; i++)
+        {
+            list.Add(GetPlayerData(random.Next(1, 5), new TimeSpan(), GetRandomPlacementTypeList().ToArray()));
+        }
+
+        return list;
+    }
+    
+    
+    public static PlayerData GetPlayerData(int id = 1, TimeSpan timeSpan = new(), params PlacementType[] availablePlacements)
+    {
+        return new PlayerData(id, availablePlacements.ToList(), timeSpan);
+    }
+    
+    public static List<PlacementType> GetRandomPlacementTypeList()
+    {
+        var list = new List<PlacementType>();
+        var random = new Random();
+        var count = random.Next(1, 5);
+        for (int i = 0; i < count; i++)
+        {
+            list.Add(GetRandomPlacementType());
+        }
+
+        return list;
+    }
+
+    public static PlacementType GetRandomPlacementType()
+    {
+        var values = Enum.GetValues(typeof(PlacementType));
+        var random = new Random();
+        var randomIndex = random.Next(values.Length);
+        return (PlacementType)values.GetValue(randomIndex);
     }
 }

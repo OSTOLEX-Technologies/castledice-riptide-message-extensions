@@ -50,4 +50,16 @@ public class GeneralMessageExtensionsTests
         
         Assert.Equal(sentList, retrievedList);
     }
+    
+    [Fact]
+    public void AddTimeSpan_ShouldAddTimeSpanToMessage()
+    {
+        var message = GetEmptyMessage();
+        var sentTimeSpan = new TimeSpan(new Random().Next());
+        
+        message.AddTimeSpan(sentTimeSpan);
+        var retrievedTimeSpan = message.GetTimeSpan();
+        
+        Assert.Equal(sentTimeSpan, retrievedTimeSpan);
+    }
 }

@@ -11,8 +11,7 @@ public static class GameStartDataMessageExtensions
         message.AddBoardData(data.BoardData);
         message.AddPlaceablesConfigData(data.PlaceablesConfigData);
         message.AddTscConfigData(data.TscConfigData);
-        message.AddIntList(data.PlayersIds);
-        message.AddPlayerDeckDataList(data.Decks);
+        message.AddPlayerDataList(data.PlayersData);
     }
 
     internal static GameStartData GetGameStartData(this Message message)
@@ -21,9 +20,8 @@ public static class GameStartDataMessageExtensions
         var boardConfigData = message.GetBoardData();
         var placeablesConfigs = message.GetPlaceablesConfigData();
         var tscConfigData = message.GetTscConfigData();
-        var playersIds = message.GetIntList();
-        var decks = message.GetPlayerDeckDataList();
+        var playersData = message.GetPlayerDataList();
 
-        return new GameStartData(version, boardConfigData, placeablesConfigs,tscConfigData, playersIds, decks);
+        return new GameStartData(version, boardConfigData, placeablesConfigs,tscConfigData, playersData);
     }
 }
