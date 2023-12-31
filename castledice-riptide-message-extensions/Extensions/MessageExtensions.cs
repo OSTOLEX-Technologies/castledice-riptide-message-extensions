@@ -8,6 +8,21 @@ namespace castledice_riptide_dto_adapters.Extensions;
 
 public static class MessageExtensions
 {
+    public static void AddSwitchTimerDTO(this Message message, SwitchTimerDTO dto)
+    {
+        message.AddInt(dto.PlayerId);
+        message.AddTimeSpan(dto.TimeLeft);
+        message.AddBool(dto.Switch);
+    }
+    
+    public static SwitchTimerDTO GetSwitchTimerDTO(this Message message)
+    {
+        var playerId = message.GetInt();
+        var timeLeft = message.GetTimeSpan();
+        var switchTimer = message.GetBool();
+        return new SwitchTimerDTO(timeLeft, playerId, switchTimer);
+    }
+    
     public static void AddInitializePlayerDTO(this Message message, InitializePlayerDTO dto)
     {
         message.AddString(dto.VerificationKey);

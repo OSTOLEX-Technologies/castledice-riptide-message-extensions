@@ -9,6 +9,18 @@ namespace castledice_riptide_dto_adapters_tests;
 public class MessageExtensionsTests
 {
     [Fact]
+    public void AddSwitchTimerDTO_ShouldAddSwitchTimerDTOToMessage()
+    {
+        var DTOToSend = new SwitchTimerDTO(GetRandomTimeSpan(), new Random().Next(), new Random().Next(1, 2) == 1);
+        var message = GetEmptyMessage();
+        
+        message.AddSwitchTimerDTO(DTOToSend);
+        var receivedDTO = message.GetSwitchTimerDTO();
+        
+        Assert.Equal(DTOToSend, receivedDTO);
+    }
+    
+    [Fact]
     public void AddInitializePlayerDTO_ShouldAddInitializePlayerDTOToMessage()
     {
         var DTOToSend = new InitializePlayerDTO("somekey");

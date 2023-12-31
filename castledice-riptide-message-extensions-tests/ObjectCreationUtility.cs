@@ -169,4 +169,10 @@ public static class ObjectCreationUtility
         var randomIndex = random.Next(values.Length);
         return (PlacementType)values.GetValue(randomIndex);
     }
+    
+    public static TimeSpan GetRandomTimeSpan()
+    {
+        var random = new Random();
+        return new TimeSpan(random.Next());
+    }
 }
